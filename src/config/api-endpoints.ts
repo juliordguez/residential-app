@@ -2,7 +2,7 @@ import { environment } from '../environments/environment';
 
 export const API_ENDPOINTS = {
   auth: {
-    login: `${environment.api}/api/v1/token`,
+    login: `${environment.api}/api/users/login`,
     register: `${environment.api}/auth/register`,
     refreshToken: `${environment.api}/auth/refresh-token`
   },
