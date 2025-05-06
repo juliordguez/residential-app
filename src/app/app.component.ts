@@ -59,26 +59,56 @@ export class AppComponent {
         position: 10,
         pathMatchExact: true
       },
-      // {
-      //   name: 'All-In-One Table',
-      //   routeOrFunction: '/tables/all-in-one-table',
-      //   icon: 'assignment',
-      //   badge: '22',
-      //   badgeColor: '#2196F3',
-      //   position: 15,
-      // },
-      // {
-      //   name: 'Calendar',
-      //   routeOrFunction: '/apps/calendar',
-      //   icon: 'date_range',
-      //   position: 20
-      // },
-      // {
-      //   name: 'Inbox',
-      //   routeOrFunction: '/apps/inbox',
-      //   icon: 'inbox',
-      //   position: 25
-      // },
+      {
+        name: 'Usuarios',
+        routeOrFunction: '/usuarios',
+        icon: 'people',
+        badge: '22',
+        badgeColor: '#2196F3',
+        position: 15,
+      },
+      {
+        name: 'Roles',
+        routeOrFunction: '/apps/roles',
+        icon: 'security',
+        position: 20
+      },
+      {
+        name: 'Morosos',
+        routeOrFunction: '/apps/morosos',
+        icon: 'report_problem',
+        position: 25
+      },
+      {
+        name: 'Tesoreria',
+        routeOrFunction: '/apps/tesoreria',
+        icon: 'campaign',
+        position: 30
+      },
+      {
+        name: 'Noticias',
+        routeOrFunction: '/apps/noticias',
+        icon: 'inbox',
+        position: 35
+      },
+      {
+        name: 'Mascotas',
+        routeOrFunction: '/apps/mascotas',
+        icon: 'pets',
+        position: 40
+      },
+      {
+        name: 'Zona comun',
+        routeOrFunction: '/apps/zona-comun',
+        icon: 'meeting_room',
+        position: 45
+      },
+      {
+        name: 'Reglamento',
+        routeOrFunction: '/apps/reglamento',
+        icon: 'gavel',
+        position: 50
+      },
       // {
       //   name: 'Chat',
       //   routeOrFunction: '/apps/chat',

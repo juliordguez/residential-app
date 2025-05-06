@@ -1,24 +1,43 @@
 import { environment } from '../environments/environment';
 
+const API = environment.apiBase;
+
 export const API_ENDPOINTS = {
   auth: {
-    login: `${environment.api}/api/users/login`,
-    register: `${environment.api}/auth/register`,
-    refreshToken: `${environment.api}/auth/refresh-token`
+    login: `${API}/users/login`,
+    register: `${API}/auth/register`,
+    refreshToken: `${API}/auth/refresh-token`
   },
   users: {
-    list: `${environment.api}/users`,
-    getById: (id: number) => `${environment.api}/users/${id}`,
-    update: (id: number) => `${environment.api}/users/${id}`,
-    delete: (id: number) => `${environment.api}/users/${id}`
+    list: `http://127.0.0.1:7091/api/v1/user`,
+    // list: `${environment.api}/users`,
+    getById: (id: number) => `${API}/users/${id}`,
+    create: `${API}/users`,
+    update: `${API}/users`,
+    delete: (id: number) => `${API}/users/${id}`
+  },
+  rol: {
+    list: `http://127.0.0.1:7091/api/v1/roles`,
+    // list: `${environment.api}/roles`,
+    getById: (id: number) => `${API}/rol/${id}`,
+    create: `${environment.api}/rol/users`,
+    update: `${environment.api}/rol/users`,
+    delete: (id: number) => `${API}/rol/${id}`
+  },
+  fraccionamiento: {
+    list: `${environment.api}/fraccionamientos`,
+    getById: (id: number) => `${API}/fraccionamiento/${id}`,
+    create: `${API}/fraccionamiento`,
+    update: `${API}/fraccionamiento`,
+    delete: (id: number) => `${API}/fraccionamiento/${id}`
   },
   attendance: {
-    register: `${environment.api}/attendance/register`,
-    history: `${environment.api}/attendance/history`
+    register: `${API}/attendance/register`,
+    history: `${API}/attendance/history`
   },
   company: {
-    list: `${environment.api}/company`,
-    getById: (id: number) => `${environment.api}/company/${id}`,
-    update: (id: number) => `${environment.api}/company/${id}`
+    list: `${environment.api}/fracccionamiento`,
+    getById: (id: number) => `${API}/company/${id}`,
+    update: (id: number) => `${API}/company/${id}`
   }
 };

@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Needed for Touch functionality of Material Components
 import { AppRoutingModule } from './app-routing.module';

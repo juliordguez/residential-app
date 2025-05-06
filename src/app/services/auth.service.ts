@@ -9,16 +9,13 @@ import { API_ENDPOINTS } from 'src/config/api-endpoints';
   providedIn: 'root'
 })
 export class AuthService {
+  private url_base = API_ENDPOINTS.auth;
+
   private authState = new BehaviorSubject<boolean>(this.checkToken());
 
   constructor(private http: HttpClient) {
     this.revalidateToken();
   }
-
-  /** Devuelve el estado de autenticación como un Observable */
-  // isAuthenticated$(): Observable<boolean> {
-  //   return this.authState.asObservable();
-  // }
 
   public authenticated$ = this.authState.asObservable();
 
@@ -29,7 +26,7 @@ export class AuthService {
 
   /** Método para iniciar sesión */
   login(credentials: LoginRequest): Observable<ApiResponse<LoginResponse>> {
-    return this.http.post<ApiResponse<LoginResponse>>(API_ENDPOINTS.auth.login, credentials);
+    return this.http.post<ApiResponse<LoginResponse>>(this.url_base.login, credentials);
   }
 
   /** Método para cerrar sesión */
@@ -52,7 +49,7 @@ export class AuthService {
   }
 
   refreshToken(): Observable<ApiResponse<LoginResponse>> {
-    return this.http.post<ApiResponse<LoginResponse>>(API_ENDPOINTS.auth.refreshToken, {}, { withCredentials: true });
+    return this.http.post<ApiResponse<LoginResponse>>(this.url_base.refreshToken, {}, { withCredentials: true });
   }
 
   setAuthenticated(value: boolean): void {

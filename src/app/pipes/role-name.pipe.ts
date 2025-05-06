@@ -14,3 +14,16 @@ export class RoleNamePipe implements PipeTransform {
   }
 
 }
+
+// import { Pipe, PipeTransform } from '@angular/core';
+// import { Roles } from './rol.demo';
+
+// @Pipe({
+//   name: 'rolNombre'
+// })
+// export class RolNombrePipe implements PipeTransform {
+//   transform(id_rol: number): string {
+//     const rol = Roles.find(r => r.id_rol === id_rol);
+//     return rol ? rol.name_rol : 'Desconocido';
+//   }
+// }

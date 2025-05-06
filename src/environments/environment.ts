@@ -4,10 +4,12 @@
 // The list of which env maps to which file can be found in `angular-cli.json`.
 
 var angularServer = 'localhost:4200'
-var apiServer = 'apiloginmanager-e6g2erhserg8dqbb.centralus-01.azurewebsites.net'
+var apiServer = 'apiloginmanager-e6g2erhserg8dqbb.centralus-01.azurewebsites.net/api'
 
 export const environment = {
   production: false,
   backend: `http://${angularServer}`, // Put your backend here
-  api: `http://${apiServer}`
+  api: `https://${apiServer}`,
+  apiBase: 'https://apiloginmanager-e6g2erhserg8dqbb.centralus-01.azurewebsites.net/api',
+
 };

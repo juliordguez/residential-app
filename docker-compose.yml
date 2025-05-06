@@ -1,11 +1,11 @@
-version: '3.8'
+version: "3.9"
 
 services:
   angular-app:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: angular-container
     ports:
-      - "4200:80"
-    container_name: angular_frontend
+      - "8080:80"
     restart: unless-stopped

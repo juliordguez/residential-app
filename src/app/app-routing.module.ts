@@ -68,10 +68,10 @@ const routes: Routes = [
       //   path: 'page-layouts',
       //   loadChildren: () => import(`./demo/page-layouts/page-layouts.module`).then(m => m.PageLayoutsModule),
       // },
-      // {
-      //   path: 'tables/all-in-one-table',
-      //   loadChildren: () => import(`./demo/tables/all-in-one-table/all-in-one-table.module`).then(m => m.AllInOneTableModule),
-      // },
+      {
+        path: 'usuarios',
+        loadChildren: () => import(`./demo/usuarios/usuarios.module`).then(m => m.UsuariosModule),
+      },
       // {
       //   path: 'drag-and-drop',
       //   loadChildren: () => import(`./demo/drag-and-drop/drag-and-drop.module`).then(m => m.DragAndDropModule),

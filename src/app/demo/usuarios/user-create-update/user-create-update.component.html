@@ -1,0 +1,88 @@
+<div mat-dialog-title>{{ isCreateMode() ? 'CREAR' : 'ACTUALIZAR' }} USUARIO</div>
+
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content>
+
+    <div class="person">
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+        <mat-form-field fxFlex>
+          <mat-label>Username</mat-label>
+          <input type="text" formControlName="username" matInput>
+        </mat-form-field>
+
+        <!-- <mat-form-field fxFlex>
+          <mat-label>rol</mat-label>
+          <input type="text" formControlName="rol" matInput>
+        </mat-form-field> -->
+
+        <mat-form-field fxFlex>
+          <mat-label>Rol</mat-label>
+          <mat-select formControlName="rol">
+            <mat-option *ngFor="let rol of roles" [value]="rol.id_rol">
+              {{ rol.name_rol }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+      </div>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <!-- <mat-form-field fxFlex>
+        <mat-label>casa</mat-label>
+        <input type="text" formControlName="casa" matInput>
+      </mat-form-field> -->
+
+      <mat-form-field fxFlex>
+        <mat-label>Casa</mat-label>
+        <mat-select formControlName="casa">
+          <mat-option *ngFor="let casa of casas" [value]="casa.id_casa">
+            {{ casa.numero_casa }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <!-- <mat-form-field fxFlex>
+        <mat-label>fraccionamiento</mat-label>
+        <input type="text" formControlName="fraccionamiento" matInput>
+      </mat-form-field> -->
+
+      <mat-form-field fxFlex>
+        <mat-label>Fraccionamiento</mat-label>
+        <mat-select formControlName="fraccionamiento">
+          <mat-option *ngFor="let fraccionamiento of fraccionamientos" [value]="fraccionamiento.id_fraccionamiento">
+            {{ fraccionamiento.name_fraccionamiento }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field fxFlex>
+        <mat-label>Phone Number</mat-label>
+        <input type="text" formControlName="phoneNumber" matInput>
+      </mat-form-field>
+    </div>
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field fxFlex>
+        <mat-label>email</mat-label>
+        <input type="text" formControlName="email" matInput>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button *ngIf="isCreateMode()"
+            mat-flat-button
+            color="primary"
+            [disabled]="!form.valid">CREAR USUARIO
+    </button>
+    <button *ngIf="isUpdateMode()"
+            mat-flat-button
+            color="primary"
+            [disabled]="!form.valid">ACTUALIZAR USUARIO
+    </button>
+  </mat-dialog-actions>
+</form>
