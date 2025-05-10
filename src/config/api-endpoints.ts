@@ -4,12 +4,13 @@ const API = environment.apiBase;
 
 export const API_ENDPOINTS = {
   auth: {
-    login: `${API}/users/login`,
+    // login: `${API}/users/login`,
+    login: `https://login-manager.onrender.com/api/users/login`,
     register: `${API}/auth/register`,
     refreshToken: `${API}/auth/refresh-token`
   },
   users: {
-    list: `http://127.0.0.1:7091/api/v1/user`,
+    list: `https://adminmanagertest-1.onrender.com/api/users/1`,
     // list: `${environment.api}/users`,
     getById: (id: number) => `${API}/users/${id}`,
     create: `${API}/users`,
@@ -17,7 +18,7 @@ export const API_ENDPOINTS = {
     delete: (id: number) => `${API}/users/${id}`
   },
   rol: {
-    list: `http://127.0.0.1:7091/api/v1/roles`,
+    list: `https://adminmanagertest-1.onrender.com/api/roles/1`,
     // list: `${environment.api}/roles`,
     getById: (id: number) => `${API}/rol/${id}`,
     create: `${environment.api}/rol/users`,
