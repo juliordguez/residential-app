@@ -6213,8 +6213,8 @@ var angularServer = 'localhost:4200';
 var apiServer = 'apiloginmanager-e6g2erhserg8dqbb.centralus-01.azurewebsites.net/api';
 const environment = {
   production: false,
-  apiBaseAdmin: 'https://login-manager.onrender.com/api/',
-  apiBaseManagment: 'https://adminmanager.onrender.com/api/',
+  apiBaseAdmin: 'https://login-manager.onrender.com/api',
+  apiBaseManagment: 'https://adminmanager.onrender.com/api',
   backend: `http://${angularServer}`,
   api: `https://${apiServer}`,
   apiBase: 'https://apiloginmanager-e6g2erhserg8dqbb.centralus-01.azurewebsites.net/api'
