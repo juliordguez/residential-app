@@ -6091,9 +6091,7 @@ class AuthService {
   }
   /** Método para iniciar sesión */
   login(credentials) {
-    console.log('url login');
-    console.log(this.url_base.login);
-    return this.http.post("https://login-manager.onrender.com/api/users/login", credentials);
+    return this.http.post(this.url_base.login, credentials);
   }
   /** Método para cerrar sesión */
   logout() {
@@ -6150,45 +6148,47 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../environments/environment */ 20553);
 
 const API = _environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBase;
+const APIAUTH = _environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseAdmin;
+const APIMANAGMENT = _environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.apiBaseManagment;
 const API_ENDPOINTS = {
   auth: {
     // login: `${API}/users/login`,
     // login: `https://login-manager.onrender.com/api/users/login`,
-    login: `https://login-manager.onrender.com/api/users/login`,
-    register: `https://login-manager.onrender.com/auth/register`,
-    refreshToken: `https://login-manager.onrender.com/auth/refresh-token`
+    login: `${APIAUTH}/users/login`,
+    register: `${APIAUTH}/auth/register`,
+    refreshToken: `${APIAUTH}/auth/refresh-token`
   },
   users: {
-    list: `https://adminmanager.onrender.com/api/users/1`,
+    list: `${APIMANAGMENT}/users/1`,
     // list: `${environment.api}/users`,
-    getById: id => `${API}/users/${id}`,
-    create: `${API}/users`,
-    update: `${API}/users`,
-    delete: id => `${API}/users/${id}`
+    getById: id => `${APIMANAGMENT}/users/${id}`,
+    create: `${APIMANAGMENT}/users`,
+    update: `${APIMANAGMENT}/users`,
+    delete: id => `${APIMANAGMENT}/users/${id}`
   },
   rol: {
-    list: `https://adminmanagertest-1.onrender.com/api/roles/1`,
+    list: `${APIMANAGMENT}/roles/1`,
     // list: `${environment.api}/roles`,
-    getById: id => `${API}/rol/${id}`,
-    create: `${_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.api}/rol/users`,
-    update: `${_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.api}/rol/users`,
-    delete: id => `${API}/rol/${id}`
+    getById: id => `${APIMANAGMENT}/rol/${id}`,
+    create: `${APIMANAGMENT}/rol/users`,
+    update: `${APIMANAGMENT}/rol/users`,
+    delete: id => `${APIMANAGMENT}/rol/${id}`
   },
   fraccionamiento: {
-    list: `${_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.api}/fraccionamientos`,
-    getById: id => `${API}/fraccionamiento/${id}`,
-    create: `${API}/fraccionamiento`,
-    update: `${API}/fraccionamiento`,
-    delete: id => `${API}/fraccionamiento/${id}`
+    list: `${APIMANAGMENT}/fraccionamientos`,
+    getById: id => `${APIMANAGMENT}/fraccionamiento/${id}`,
+    create: `${APIMANAGMENT}/fraccionamiento`,
+    update: `${APIMANAGMENT}/fraccionamiento`,
+    delete: id => `${APIMANAGMENT}/fraccionamiento/${id}`
   },
   attendance: {
-    register: `${API}/attendance/register`,
-    history: `${API}/attendance/history`
+    register: `${APIMANAGMENT}/attendance/register`,
+    history: `${APIMANAGMENT}/attendance/history`
   },
   company: {
-    list: `${_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.api}/fracccionamiento`,
-    getById: id => `${API}/company/${id}`,
-    update: id => `${API}/company/${id}`
+    list: `${APIMANAGMENT}/fracccionamiento`,
+    getById: id => `${APIMANAGMENT}/company/${id}`,
+    update: id => `${APIMANAGMENT}/company/${id}`
   }
 };
 
@@ -6213,6 +6213,8 @@ var angularServer = 'localhost:4200';
 var apiServer = 'apiloginmanager-e6g2erhserg8dqbb.centralus-01.azurewebsites.net/api';
 const environment = {
   production: false,
+  apiBaseAdmin: 'https://login-manager.onrender.com/api/',
+  apiBaseManagment: 'https://adminmanager.onrender.com/api/',
   backend: `http://${angularServer}`,
   api: `https://${apiServer}`,
   apiBase: 'https://apiloginmanager-e6g2erhserg8dqbb.centralus-01.azurewebsites.net/api'

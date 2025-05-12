@@ -26,9 +26,7 @@ export class AuthService {
 
   /** Método para iniciar sesión */
   login(credentials: LoginRequest): Observable<ApiResponse<LoginResponse>> {
-    console.log('url login')
-    console.log(this.url_base.login)
-    return this.http.post<ApiResponse<LoginResponse>>("https://login-manager.onrender.com/api/users/login", credentials);
+    return this.http.post<ApiResponse<LoginResponse>>(this.url_base.login, credentials);
   }
 
   /** Método para cerrar sesión */

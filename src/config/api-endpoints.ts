@@ -1,46 +1,49 @@
 import { environment } from '../environments/environment';
 
 const API = environment.apiBase;
+const APIAUTH = environment.apiBaseAdmin;
+const APIMANAGMENT = environment.apiBaseManagment;
+
 
 export const API_ENDPOINTS = {
   auth: {
     // login: `${API}/users/login`,
 
     // login: `https://login-manager.onrender.com/api/users/login`,
-    login: `https://login-manager.onrender.com/api/users/login`,
-    register: `https://login-manager.onrender.com/auth/register`,
-    refreshToken: `https://login-manager.onrender.com/auth/refresh-token`
+    login: `${APIAUTH}/users/login`,
+    register: `${APIAUTH}/auth/register`,
+    refreshToken: `${APIAUTH}/auth/refresh-token`
   },
   users: {
-    list: `https://adminmanager.onrender.com/api/users/1`,
+    list: `${APIMANAGMENT}/users/1`,
     // list: `${environment.api}/users`,
-    getById: (id: number) => `${API}/users/${id}`,
-    create: `${API}/users`,
-    update: `${API}/users`,
-    delete: (id: number) => `${API}/users/${id}`
+    getById: (id: number) => `${APIMANAGMENT}/users/${id}`,
+    create: `${APIMANAGMENT}/users`,
+    update: `${APIMANAGMENT}/users`,
+    delete: (id: number) => `${APIMANAGMENT}/users/${id}`
   },
   rol: {
-    list: `https://adminmanagertest-1.onrender.com/api/roles/1`,
+    list: `${APIMANAGMENT}/roles/1`,
     // list: `${environment.api}/roles`,
-    getById: (id: number) => `${API}/rol/${id}`,
-    create: `${environment.api}/rol/users`,
-    update: `${environment.api}/rol/users`,
-    delete: (id: number) => `${API}/rol/${id}`
+    getById: (id: number) => `${APIMANAGMENT}/rol/${id}`,
+    create: `${APIMANAGMENT}/rol/users`,
+    update: `${APIMANAGMENT}/rol/users`,
+    delete: (id: number) => `${APIMANAGMENT}/rol/${id}`
   },
   fraccionamiento: {
-    list: `${environment.api}/fraccionamientos`,
-    getById: (id: number) => `${API}/fraccionamiento/${id}`,
-    create: `${API}/fraccionamiento`,
-    update: `${API}/fraccionamiento`,
-    delete: (id: number) => `${API}/fraccionamiento/${id}`
+    list: `${APIMANAGMENT}/fraccionamientos`,
+    getById: (id: number) => `${APIMANAGMENT}/fraccionamiento/${id}`,
+    create: `${APIMANAGMENT}/fraccionamiento`,
+    update: `${APIMANAGMENT}/fraccionamiento`,
+    delete: (id: number) => `${APIMANAGMENT}/fraccionamiento/${id}`
   },
   attendance: {
-    register: `${API}/attendance/register`,
-    history: `${API}/attendance/history`
+    register: `${APIMANAGMENT}/attendance/register`,
+    history: `${APIMANAGMENT}/attendance/history`
   },
   company: {
-    list: `${environment.api}/fracccionamiento`,
-    getById: (id: number) => `${API}/company/${id}`,
-    update: (id: number) => `${API}/company/${id}`
+    list: `${APIMANAGMENT}/fracccionamiento`,
+    getById: (id: number) => `${APIMANAGMENT}/company/${id}`,
+    update: (id: number) => `${APIMANAGMENT}/company/${id}`
   }
 };
