@@ -8,8 +8,8 @@ export const API_ENDPOINTS = {
 
     // login: `https://login-manager.onrender.com/api/users/login`,
     login: `https://login-manager.onrender.com/api/users/login`,
-    register: `${API}/auth/register`,
-    refreshToken: `${API}/auth/refresh-token`
+    register: `https://login-manager.onrender.com/auth/register`,
+    refreshToken: `https://login-manager.onrender.com/auth/refresh-token`
   },
   users: {
     list: `https://adminmanager.onrender.com/api/users/1`,

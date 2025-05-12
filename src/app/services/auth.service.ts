@@ -26,6 +26,8 @@ export class AuthService {
 
   /** Método para iniciar sesión */
   login(credentials: LoginRequest): Observable<ApiResponse<LoginResponse>> {
+    console.log('url login')
+    console.log(this.url_base.login)
     return this.http.post<ApiResponse<LoginResponse>>(this.url_base.login, credentials);
   }
 
