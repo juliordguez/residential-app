@@ -17,7 +17,7 @@
 }
 
 .sidenav-toolbar {
-  padding: 0 math.div($spacing, 1.333) 0 $spacing;
+  padding: 0 math.div($spacing, 1.111) 0 $spacing;
   height: $sidenav-toolbar-height;
   min-height: $sidenav-toolbar-height;
   max-height: $sidenav-toolbar-height;
@@ -69,8 +69,8 @@
 
   .sidenav-user-image {
     display: block;
-    height: 72px;
-    width: 72px;
+    height: 70px;
+    width: 70px;
     border-radius: 50%;
   }
 

@@ -5,12 +5,14 @@ const API = environment.apiBase;
 export const API_ENDPOINTS = {
   auth: {
     // login: `${API}/users/login`,
+
+    // login: `https://login-manager.onrender.com/api/users/login`,
     login: `https://login-manager.onrender.com/api/users/login`,
     register: `${API}/auth/register`,
     refreshToken: `${API}/auth/refresh-token`
   },
   users: {
-    list: `https://adminmanagertest-1.onrender.com/api/users/1`,
+    list: `https://adminmanager.onrender.com/api/users/1`,
     // list: `${environment.api}/users`,
     getById: (id: number) => `${API}/users/${id}`,
     create: `${API}/users`,
