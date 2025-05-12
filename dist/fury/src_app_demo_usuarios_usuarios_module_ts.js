@@ -680,7 +680,7 @@ class UsuariosComponent {
   getUsers() {
     this.userService.getUsers().subscribe({
       next: data => {
-        const usuarios = data.map(user => new _user_create_update_user_model__WEBPACK_IMPORTED_MODULE_2__.Usuario(user));
+        const usuarios = data.message.map(user => new _user_create_update_user_model__WEBPACK_IMPORTED_MODULE_2__.Usuario(user));
         this.subject$.next(usuarios);
       },
       error: err => console.error('Error al cargar usuarios', err)
