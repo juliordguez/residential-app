@@ -48,7 +48,7 @@ export class UserCreateUpdateComponent {
       username: [this.defaults.username || '',],
       rol: [this.defaults.rol || ''],
       casa: this.defaults.casa || '',
-      fraccionamiento: this.defaults.fraccionamiento || '',
+      name_fraccionamiento: this.defaults.name_fraccionamiento || '',
       email: this.defaults.email || '',
       phoneNumber: this.defaults.phoneNumber || '',
     });

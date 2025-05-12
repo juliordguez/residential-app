@@ -1,7 +1,7 @@
 export class Usuario {
   id: number;
   username: string;
-  rol: string;
+  name_fraccionamiento: string;
   casa: string;
   fraccionamiento: number;
   phoneNumber: string;
@@ -11,7 +11,7 @@ export class Usuario {
   constructor(usuario) {
     this.id = usuario.id;
     this.username = usuario.username;
-    this.rol = usuario.rol;
+    this.name_fraccionamiento = usuario.name_fraccionamiento;
     this.casa = usuario.casa;
     this.fraccionamiento = usuario.fraccionamiento;
     this.phoneNumber = usuario.phoneNumber;

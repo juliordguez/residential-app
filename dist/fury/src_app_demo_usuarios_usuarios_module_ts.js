@@ -200,7 +200,7 @@ class UserCreateUpdateComponent {
       username: [this.defaults.username || ''],
       rol: [this.defaults.rol || ''],
       casa: this.defaults.casa || '',
-      fraccionamiento: this.defaults.fraccionamiento || '',
+      name_fraccionamiento: this.defaults.name_fraccionamiento || '',
       email: this.defaults.email || '',
       phoneNumber: this.defaults.phoneNumber || ''
     });
@@ -349,7 +349,7 @@ class Usuario {
   constructor(usuario) {
     this.id = usuario.id;
     this.username = usuario.username;
-    this.rol = usuario.rol;
+    this.name_fraccionamiento = usuario.name_fraccionamiento;
     this.casa = usuario.casa;
     this.fraccionamiento = usuario.fraccionamiento;
     this.phoneNumber = usuario.phoneNumber;
