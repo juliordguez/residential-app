@@ -80,7 +80,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   getUsers() {
     this.userService.getUsers().subscribe({
       next: (data) => {
-        const usuarios = data.map(user => new Usuario(user));
+        const usuarios = data.message.map(user => new Usuario(user));
         this.subject$.next(usuarios);
       },
       error: (err) => console.error('Error al cargar usuarios', err)
