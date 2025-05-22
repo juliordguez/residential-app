@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule, Component } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Needed for Touch functionality of Material Components
@@ -8,6 +8,13 @@ import { LayoutModule } from './layout/layout.module';
 import { PendingInterceptorModule } from '../@fury/shared/loading-indicator/pending-interceptor.module';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { LoaderComponent } from './shared/loader/loader.component';
+import { LoaderInterceptor } from 'src/app/interceptor/loader.interceptor';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CommonModule } from '@angular/common';
+import { ToastMessageComponent } from './shared/toast/toast-message.component';
+
+
 
 @NgModule({
   imports: [
@@ -27,11 +34,15 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from '@angular/mater
 
     // Register a Service Worker (optional)
     // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    MatSnackBarModule,
+    CommonModule, // <-- Agregado aquí
+
   ],
   exports: [
 
   ],
-  declarations: [AppComponent],
+  declarations: [AppComponent, LoaderComponent, ToastMessageComponent, // Asegúrate de declarar este
+],
   bootstrap: [AppComponent],
   providers: [
     {
@@ -39,6 +50,11 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from '@angular/mater
       useValue: {
         appearance: 'fill'
       } as MatFormFieldDefaultOptions
+    },
+        {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptor,
+      multi: true
     },
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,

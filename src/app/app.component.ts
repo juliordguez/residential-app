@@ -8,12 +8,19 @@ import { filter } from 'rxjs/operators';
 import { Platform } from '@angular/cdk/platform';
 import { SplashScreenService } from '../@fury/services/splash-screen.service';
 import { AuthService } from './services/auth.service';
+import { LoaderService } from './shared/loader/loader.service';
+import { Observable } from 'rxjs';
+
+
 
 @Component({
   selector: 'fury-root',
   templateUrl: './app.component.html'
 })
 export class AppComponent {
+
+  isLoading$: Observable<boolean>;
+
 
   isAuthenticated = false;
 
@@ -26,8 +33,11 @@ export class AppComponent {
               private platform: Platform,
               private route: ActivatedRoute,
               private splashScreenService: SplashScreenService,
-              private router: Router
+              private router: Router,
+              private loaderService: LoaderService
             ) {
+    this.isLoading$ = this.loaderService.loading$;
+
     this.route.queryParamMap.pipe(
       filter(queryParamMap => queryParamMap.has('style'))
     ).subscribe(queryParamMap => this.themeService.setStyle(queryParamMap.get('style')));
@@ -69,7 +79,7 @@ export class AppComponent {
       },
       {
         name: 'Roles',
-        routeOrFunction: '/apps/roles',
+        routeOrFunction: '/roles',
         icon: 'security',
         position: 20
       },

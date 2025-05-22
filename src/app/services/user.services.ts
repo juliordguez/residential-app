@@ -14,24 +14,27 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-getUsers(): Observable<any> {
-  return this.http.get<any>(this.baseUrl.list);
-}
+  getUsers(): Observable<any> {
+    return this.http.get<any>(this.baseUrl.list);
+  }
 
   getUser(id: number): Observable<UserResponse> {
     return this.http.get<UserResponse>(this.baseUrl.getById(id));
   }
 
-  createUser(user: UserResponse): Observable<UserResponse> {
+  createUser(user: any): Observable<UserResponse> {
     return this.http.post<UserResponse>(this.baseUrl.create, user);
   }
 
-  updateUser(id: number, user: UserResponse): Observable<UserResponse> {
-    return this.http.put<UserResponse>(this.baseUrl.update, user);
+  updateUser(uuid: string, user: UserResponse): Observable<UserResponse> {
+    return this.http.put<UserResponse>(`${this.baseUrl.update}/${uuid}`, user);
   }
 
-  deleteUser(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
-  }
+  deleteUser(user_uuid: string): Observable<any> {
+  console.log('[DEBUG] Endpoint DELETE:', API_ENDPOINTS.users.delete(user_uuid)); // 👈
+  return this.http.delete(API_ENDPOINTS.users.delete(user_uuid));
+}
+
+
 
 }
