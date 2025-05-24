@@ -8,13 +8,18 @@ import { Observable, of, ReplaySubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { ListColumn } from '../../../../src/@fury/shared/list/list-column.model';
-import { Usuarios } from './usuarios.demo';
+//import { Usuarios } from './old/usuarios.demo';
 
 import { UserCreateUpdateComponent } from './user-create-update/user-create-update.component';
 import { Usuario } from './user-create-update/user.model';
 import { fadeInRightAnimation } from '../../../../src//@fury/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from '../../../../src/@fury/animations/fade-in-up.animation';
 import { UserService } from '../../services/user.services';
+
+import { LoaderService } from '../../shared/loader/loader.service';
+import { ToastService } from 'src/app/shared/toast/toast.service';
+
+
 
 @Component({
   selector: 'fury-usuarios',
@@ -23,10 +28,7 @@ import { UserService } from '../../services/user.services';
   animations: [fadeInRightAnimation, fadeInUpAnimation]
 })
 export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
-  /**
-   * Simulating a service with HTTP that returns Observables
-   * You probably want to remove this and do all requests in a service with HTTP
-   */
+
   subject$: ReplaySubject<Usuario[]> = new ReplaySubject<Usuario[]>(1);
   data$: Observable<Usuario[]> = this.subject$.asObservable();
   users: Usuario[];
@@ -50,17 +52,12 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  // constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
-  //             private dialogRef: MatDialogRef<UserCreateUpdateComponent>,
-  //             private fb: UntypedFormBuilder,
-  //             private rolService: RolService,
-  //             private userService: UserService
-  //           ) {
-  // }
 
   constructor(
               private dialog: MatDialog,
               private userService: UserService,
+              private toast: ToastService,
+              private loader: LoaderService
   ) {
   }
 
@@ -68,18 +65,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.columns.filter(column => column.visible).map(column => column.property);
   }
 
-  /**
-   * Example on how to get data and pass it to the table - usually you would want a dedicated service with a HTTP request for this
-   * We are simulating this request here.
-   */
-  getData() {
-
-    return of(Usuarios.map(usuario => new Usuario(usuario)));
-  }
-
   getUsers() {
     this.userService.getUsers().subscribe({
       next: (data) => {
+        console.log('[DEBUG] Respuesta cruda del backend:', data); // 🔍 aquí
         const usuarios = data.message.map(user => new Usuario(user));
         this.subject$.next(usuarios);
       },
@@ -124,17 +113,12 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateUsuario(Usuario) {
+    console.log('[DEBUG] Usuario que se enviará al modal actualizar:', Usuario); // 👈
+
     this.dialog.open(UserCreateUpdateComponent, {
       data: Usuario
     }).afterClosed().subscribe((Usuario) => {
-      /**
-       * Usuario is the updated Usuario (if the user pressed Save - otherwise it's null)
-       */
       if (Usuario) {
-        /**
-         * Here we are updating our local array.
-         * You would probably make an HTTP request here.
-         */
         const index = this.users.findIndex((existingUsuario) => existingUsuario.id === Usuario.id);
         this.users[index] = new Usuario(Usuario);
         this.subject$.next(this.users);
@@ -142,14 +126,41 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  deleteUsuario(Usuario) {
-    /**
-     * Here we are updating our local array.
-     * You would probably make an HTTP request here.
-     */
-    this.users.splice(this.users.findIndex((existingUsuario) => existingUsuario.id === Usuario.id), 1);
-    this.subject$.next(this.users);
+
+
+
+
+
+
+deleteUsuario(usuario: Usuario) {
+  console.log('[DEBUG] Usuario que se enviará a eliminación:', usuario);
+
+  if (!usuario.user_uuid) {
+    this.toast.warning('UUID no definido', 'No se puede eliminar este usuario');
+    return;
   }
+
+  const confirmed = confirm(`¿Seguro que deseas eliminar a ${usuario.username}?`);
+
+  if (!confirmed) return;
+
+  this.loader.show(); // 👈 Inicia el loader
+
+  this.userService.deleteUser(usuario.user_uuid).subscribe({
+    next: () => {
+      this.users = this.users.filter(u => u.user_uuid !== usuario.user_uuid);
+      this.subject$.next(this.users);
+      this.toast.success('Usuario eliminado', `${usuario.username} fue eliminado correctamente`);
+    },
+    error: (err) => {
+      console.error('[ERROR] Falló la eliminación del usuario:', err);
+      this.toast.error('Error al eliminar usuario', err?.error?.detail || 'No se pudo eliminar el usuario');
+    },
+    complete: () => this.loader.hide() // 👈 Oculta el loader al finalizar
+  });
+}
+
+
 
   onFilterChange(value) {
     if (!this.dataSource) {

@@ -72,6 +72,11 @@ const routes: Routes = [
         path: 'usuarios',
         loadChildren: () => import(`./demo/usuarios/usuarios.module`).then(m => m.UsuariosModule),
       },
+      {
+        path: 'roles',
+        loadChildren: () => import(`./demo/roles/roles.module`).then(m => m.RolesModule),
+      },
+
       // {
       //   path: 'drag-and-drop',
       //   loadChildren: () => import(`./demo/drag-and-drop/drag-and-drop.module`).then(m => m.DragAndDropModule),

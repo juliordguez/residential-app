@@ -18,9 +18,9 @@ export const API_ENDPOINTS = {
     list: `${APIMANAGMENT}/users/1`,
     // list: `${environment.api}/users`,
     getById: (id: number) => `${APIMANAGMENT}/users/${id}`,
-    create: `${APIMANAGMENT}/users`,
-    update: `${APIMANAGMENT}/users`,
-    delete: (id: number) => `${APIMANAGMENT}/users/${id}`
+    create: `${APIAUTH}/users/signup`,
+    update: `${APIAUTH}/users`,
+    delete: (uuid: string) => `${APIAUTH}/users/${uuid}`
   },
   rol: {
     list: `${APIMANAGMENT}/roles/1`,
@@ -29,6 +29,9 @@ export const API_ENDPOINTS = {
     create: `${APIMANAGMENT}/rol/users`,
     update: `${APIMANAGMENT}/rol/users`,
     delete: (id: number) => `${APIMANAGMENT}/rol/${id}`
+  },
+  casas: {
+    list:  `${APIMANAGMENT}/casas/1`
   },
   fraccionamiento: {
     list: `${APIMANAGMENT}/fraccionamientos`,

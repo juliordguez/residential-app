@@ -6,7 +6,8 @@ export class Usuario {
   fraccionamiento: number;
   phoneNumber: string;
   email: string;
-
+  user_uuid: string;
+  nick_name: string;
 
   constructor(usuario) {
     this.id = usuario.id;
@@ -16,6 +17,8 @@ export class Usuario {
     this.fraccionamiento = usuario.fraccionamiento;
     this.phoneNumber = usuario.phoneNumber;
     this.email = usuario.email;
+    this.user_uuid = usuario.user_uuid;
+    this.nick_name = usuario.nick_name;
   }
 
   get name() {
