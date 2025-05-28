@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, Renderer2 } from '@angular/core';
+import { Component, Inject, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { SidenavService } from './layout/sidenav/sidenav.service';
 import { ThemeService } from '../@fury/services/theme.service';
@@ -34,7 +34,9 @@ export class AppComponent {
               private route: ActivatedRoute,
               private splashScreenService: SplashScreenService,
               private router: Router,
-              private loaderService: LoaderService
+              private loaderService: LoaderService,
+              private cdr: ChangeDetectorRef
+
             ) {
     this.isLoading$ = this.loaderService.loading$;
 
@@ -97,13 +99,13 @@ export class AppComponent {
       },
       {
         name: 'Noticias',
-        routeOrFunction: '/apps/noticias',
+        routeOrFunction: '/noticias',
         icon: 'inbox',
         position: 35
       },
       {
         name: 'Mascotas',
-        routeOrFunction: '/apps/mascotas',
+        routeOrFunction: '/mascotas',
         icon: 'pets',
         position: 40
       },
@@ -117,6 +119,30 @@ export class AppComponent {
         name: 'Reglamento',
         routeOrFunction: '/apps/reglamento',
         icon: 'gavel',
+        position: 50
+      },
+      {
+        name: 'Casas',
+        routeOrFunction: '/casas',
+        icon: 'home',
+        position: 50
+      },
+      {
+        name: 'Proveedores',
+        routeOrFunction: '/proveedores',
+        icon: 'local_shipping',
+        position: 50
+      },
+      {
+        name: 'Deudores',
+        routeOrFunction: '/deudores',
+        icon: 'account_balance_wallet',
+        position: 50
+      },
+      {
+        name: 'Mercado',
+        routeOrFunction: '/mercado',
+        icon: 'shopping_bag',
         position: 50
       },
       // {
@@ -287,5 +313,10 @@ export class AppComponent {
         this.router.navigate(['/']); // o la ruta que quieras como /dashboard
       }
     });
+  }
+
+
+  ngAfterViewInit() {
+    this.cdr.detectChanges(); // ✅ corrige el error NG0100
   }
 }

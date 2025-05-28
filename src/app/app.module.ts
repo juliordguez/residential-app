@@ -13,8 +13,7 @@ import { LoaderInterceptor } from 'src/app/interceptor/loader.interceptor';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { ToastMessageComponent } from './shared/toast/toast-message.component';
-
-
+import { CasasModule } from './demo/casas/casas.module';
 
 @NgModule({
   imports: [
@@ -35,7 +34,8 @@ import { ToastMessageComponent } from './shared/toast/toast-message.component';
     // Register a Service Worker (optional)
     // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     MatSnackBarModule,
-    CommonModule, // <-- Agregado aquí
+    CommonModule,
+    CasasModule, // <-- Agregado aquí
 
   ],
   exports: [

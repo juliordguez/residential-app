@@ -36,26 +36,26 @@ const routes: Routes = [
         loadChildren: () => import(`./demo/dashboard/dashboard.module`).then(m => m.DashboardModule),
         pathMatch: 'full',
       },
-      // {
-      //   path: 'apps/inbox',
-      //   loadChildren: () => import(`./demo/apps/inbox/inbox.module`).then(m => m.InboxModule),
-      // },
-      // {
-      //   path: 'apps/calendar',
-      //   loadChildren: () => import(`./demo/apps/calendar/calendar.module`).then(m => m.CalendarAppModule),
-      // },
-      // {
-      //   path: 'apps/chat',
-      //   loadChildren: () => import(`./demo/apps/chat/chat.module`).then(m => m.ChatModule),
-      // },
-      // {
-      //   path: 'components',
-      //   loadChildren: () => import(`./demo/components/components.module`).then(m => m.ComponentsModule),
-      // },
-      // {
-      //   path: 'forms/form-elements',
-      //   loadChildren: () => import(`./demo/forms/form-elements/form-elements.module`).then(m => m.FormElementsModule),
-      // },
+      {
+        path: 'mascotas',
+        loadChildren: () => import(`./demo/mascotas/mascotas.module`).then(m => m.MascotasModule),
+      },
+      {
+        path: 'casas',
+        loadChildren: () => import(`./demo/casas/casas.module`).then(m => m.CasasModule),
+      },
+      {
+        path: 'noticias',
+        loadChildren: () => import(`./demo/noticias/noticias.module`).then(m => m.NoticiasModule),
+      },
+      {
+        path: 'deudores',
+        loadChildren: () => import(`./demo/deudores/deudores.module`).then(m => m.DeudoresModule),
+      },
+      {
+        path: 'proveedores',
+        loadChildren: () => import(`./demo/proveedores/proveedores.module`).then(m => m.ProveedoresModule),
+      },
       // {
       //   path: 'forms/form-wizard',
       //   loadChildren: () => import(`./demo/forms/form-wizard/form-wizard.module`).then(m => m.FormWizardModule),
