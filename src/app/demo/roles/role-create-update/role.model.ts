@@ -1,21 +1,3 @@
-// export class Role {
-//   id: number;
-//   name: string;
-
-//   constructor(rol) {
-//     this.id = rol.id;
-//     this.name = rol.name;
-//   }
-
-//   get getName() {
-//     return this.name;
-//   }
-
-//   set setName(value) {
-//   }
-// }
-
-
 
 export class Role {
   id_rol: number;

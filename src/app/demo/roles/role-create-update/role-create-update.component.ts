@@ -58,12 +58,9 @@
 
 
 
-
-
 import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-
 import { RolService } from '../../../services/role.service';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 
@@ -84,7 +81,7 @@ export class RoleCreateUpdateComponent implements OnInit {
     private toast: ToastService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.defaults) {
       this.mode = 'update';
     } else {
@@ -93,10 +90,12 @@ export class RoleCreateUpdateComponent implements OnInit {
 
     this.form = this.fb.group({
       name_rol: [this.defaults.name_rol || '', Validators.required],
-      description: [this.defaults.description || '']
-    });
+      id_rol: [this.defaults.id_rol],
+      description: [this.defaults.description || '', Validators.required],
+      id_fraccionamiento: [this.defaults.id_fraccionamiento , Validators.required],
+      id_permisos: [this.defaults.id_permisos , Validators.required],
 
-    console.log('[DEBUG] Rol recibido para edición:', this.defaults);
+    });
   }
 
   save() {
@@ -108,45 +107,36 @@ export class RoleCreateUpdateComponent implements OnInit {
   }
 
   createRol() {
-    const rol = this.form.value;
+    const payload = this.form.value;
 
-    console.log('[DEBUG] Payload para crear rol:', rol);
-
-    this.rolService.crearRol(rol).subscribe({
-      next: (response) => {
-        this.toast.success('Rol creado', 'Se ha creado exitosamente');
-        this.dialogRef.close(response);
+    this.rolService.crearRol(payload).subscribe({
+      next: (res) => {
+        this.toast.success('Rol creado', 'Rol creado correctamente');
+        this.dialogRef.close(res);
       },
-      error: (error) => {
-        this.toast.error('Error al crear rol', error?.error?.detail || 'Ocurrió un error inesperado');
-        console.error(error);
+      error: (err) => {
+        this.toast.error('Error al crear rol', err?.error?.detail || 'Error desconocido');
+        console.error(err);
       }
     });
   }
 
   updateRol() {
-    const rol = this.form.value;
+    const body = this.form.value;
 
-    console.log('[DEBUG] Payload para actualizar rol:', rol);
-    console.log('[DEBUG] ID recibido:', this.defaults.id_rol);
-
-    this.rolService.actualizarRol({ ...rol, id_rol: this.defaults.id_rol }).subscribe({
-      next: (response) => {
+    this.rolService.actualizarRol(body).subscribe({
+      next: (res) => {
         this.toast.success('Rol actualizado', 'Cambios guardados correctamente');
-        this.dialogRef.close(response);
+        this.dialogRef.close(res);
       },
-      error: (error) => {
-        console.error('Error al actualizar rol:', error);
-        this.toast.error('Error al modificar rol', error?.error?.detail || 'No se pudo actualizar');
+      error: (err) => {
+        this.toast.error('Error al actualizar rol', err?.error?.detail || 'No se pudo actualizar');
+        console.error(err);
       }
     });
   }
 
   isCreateMode() {
     return this.mode === 'create';
-  }
-
-  isUpdateMode() {
-    return this.mode === 'update';
   }
 }

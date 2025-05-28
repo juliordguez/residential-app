@@ -28,7 +28,7 @@ export class RolService {
   }
 
   actualizarRol(user: RolResponse): Observable<RolResponse> {
-    return this.http.put<RolResponse>(this.baseUrl.update, user);
+    return this.http.patch<RolResponse>(this.baseUrl.update, user);
   }
 
   eliminarRol(id: number): Observable<void> {
