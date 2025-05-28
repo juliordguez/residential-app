@@ -1,24 +1,20 @@
 import { UserResponse } from './../../models/response/user.model';
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild, ChangeDetectorRef  } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable, of, ReplaySubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
-
 import { ListColumn } from '../../../../src/@fury/shared/list/list-column.model';
-//import { Usuarios } from './old/usuarios.demo';
-
 import { UserCreateUpdateComponent } from './user-create-update/user-create-update.component';
 import { Usuario } from './user-create-update/user.model';
 import { fadeInRightAnimation } from '../../../../src//@fury/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from '../../../../src/@fury/animations/fade-in-up.animation';
 import { UserService } from '../../services/user.services';
-
 import { LoaderService } from '../../shared/loader/loader.service';
 import { ToastService } from 'src/app/shared/toast/toast.service';
-
+import { PAGE_SIZE_OPTIONS } from '../../shared/const';
 
 
 @Component({
@@ -27,7 +23,11 @@ import { ToastService } from 'src/app/shared/toast/toast.service';
   styleUrls: ['./usuarios.component.scss'],
   animations: [fadeInRightAnimation, fadeInUpAnimation]
 })
+
 export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
+
+  pageSize = 5;
+  pageSizeOptions = PAGE_SIZE_OPTIONS;
 
   subject$: ReplaySubject<Usuario[]> = new ReplaySubject<Usuario[]>(1);
   data$: Observable<Usuario[]> = this.subject$.asObservable();
@@ -44,7 +44,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
     { name: 'Actions', property: 'actions', visible: true }
 
   ] as ListColumn[];
-  pageSize = 10;
+
   dataSource: MatTableDataSource<Usuario> | null;
 
   Users: any[] = [];
@@ -57,7 +57,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
               private dialog: MatDialog,
               private userService: UserService,
               private toast: ToastService,
-              private loader: LoaderService
+              private loader: LoaderService,
+              private cdr: ChangeDetectorRef
   ) {
   }
 
@@ -79,6 +80,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   ngOnInit() {
+
     this.getUsers();
 
     this.dataSource = new MatTableDataSource();
@@ -108,6 +110,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
          */
         this.users.unshift(new Usuario(usuario));
         this.subject$.next(this.users);
+        this.getUsers();
       }
     });
   }
@@ -122,6 +125,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
         const index = this.users.findIndex((existingUsuario) => existingUsuario.id === Usuario.id);
         this.users[index] = new Usuario(Usuario);
         this.subject$.next(this.users);
+        this.getUsers();
       }
     });
   }

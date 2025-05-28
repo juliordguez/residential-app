@@ -5,7 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { RolService } from '../../../services/role.service';
 import { UserService } from '../../../services/user.services';
-import { CasasService } from '../../../services/casas.service';
+import { CasaService } from '../../../services/casas.service';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 
 
@@ -27,7 +27,7 @@ export class UserCreateUpdateComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private rolService: RolService,
     private userService: UserService,
-    private casasService: CasasService,
+    private casasService: CasaService,
     private toast: ToastService
 
   ) {}
@@ -54,7 +54,7 @@ export class UserCreateUpdateComponent implements OnInit {
   console.log('[DEBUG] Usuario recibido para edición:', this.defaults);
 }
 
-  
+
 
 
 loadRoles() {
@@ -89,7 +89,7 @@ loadCasas() {
     }
   }
 
- 
+
 createUser() {
   const user = this.form.value;
 
@@ -132,7 +132,7 @@ updateUser() {
     error: (error) => {
       console.error('Error al actualizar usuario:', error)
       this.toast.error('Error al modificar usuario', error?.error?.detail || 'No se pudo actualizar');
-    } 
+    }
   });
 }
 
