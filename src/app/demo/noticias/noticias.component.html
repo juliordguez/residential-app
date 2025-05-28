@@ -1,0 +1,60 @@
+<fury-page-layout mode="card">
+  <fury-page-layout-header>
+    <fury-breadcrumbs [@fadeInRight] [crumbs]="['Gestión']" current="Noticias"></fury-breadcrumbs>
+  </fury-page-layout-header>
+
+  <fury-page-layout-content [@fadeInUp]>
+    <fury-list name="noticias" [columns]="columns" (filterChange)="onFilterChange($event)">
+      <div class="actions">
+        <button class="create" (click)="createNoticia()" type="button" mat-mini-fab color="primary">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      <table [dataSource]="dataSource" mat-table matSort>
+
+        <!-- Checkbox -->
+        <ng-container matColumnDef="checkbox">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox color="primary"></mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox color="primary"></mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- Columnas dinámicas -->
+        <ng-container *ngFor="let column of columns">
+          <ng-container *ngIf="column.isModelProperty" [matColumnDef]="column.property">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.name }}</th>
+            <td mat-cell *matCellDef="let row">{{ row[column.property] }}</td>
+          </ng-container>
+        </ng-container>
+
+        <!-- Acciones -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+
+            <mat-menu #actionsMenu="matMenu">
+              <button mat-menu-item (click)="updateNoticia(row)">
+                <span>Editar</span>
+              </button>
+              <button mat-menu-item (click)="deleteNoticia(row)">
+                <span>Eliminar</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="visibleColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: visibleColumns" class="clickable"></tr>
+      </table>
+
+      <mat-paginator class="paginator"  [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"></mat-paginator>
+    </fury-list>
+  </fury-page-layout-content>
+</fury-page-layout>
