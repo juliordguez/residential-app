@@ -58,93 +58,134 @@ export class AppComponent {
     }
 
     this.sidenavService.addItems([
-      {
-        name: 'APPS',
-        position: 5,
-        type: 'subheading',
-        customClass: 'first-subheading'
-      },
+      // {
+      //   name: 'APPS',
+      //   position: 5,
+      //   type: 'subheading',
+      //   customClass: 'first-subheading'
+      // },
       {
         name: 'Dashboard',
         routeOrFunction: '/',
         icon: 'dashboard',
-        position: 10,
+        position: 5,
         pathMatchExact: true
       },
       {
-        name: 'Usuarios',
-        routeOrFunction: '/usuarios',
-        icon: 'people',
-        badge: '22',
-        badgeColor: '#2196F3',
+        name: 'Administracion',
+        icon: 'admin_panel_settings',
+        position: 10,
+        subItems: [
+        {
+          name: 'Usuarios',
+          routeOrFunction: '/usuarios',
+          icon: 'people',
+          badge: '22',
+          badgeColor: '#2196F3',
+          position: 5,
+        },
+        {
+          name: 'Roles',
+          routeOrFunction: '/roles',
+          icon: 'security',
+          position: 10
+        },
+        ]
+      },
+      {
+        name: 'Finanzas',
+        icon: 'attach_money',
         position: 15,
+        subItems: [
+          {
+            name: 'Morosos',
+            routeOrFunction: '/apps/morosos',
+            icon: 'report_problem',
+            position: 5
+          },
+          {
+            name: 'Tesoreria',
+            routeOrFunction: '/apps/tesoreria',
+            icon: 'campaign',
+            position: 10
+          },
+          {
+            name: 'Deudores',
+            routeOrFunction: '/deudores',
+            icon: 'account_balance_wallet',
+            position: 65
+          },
+        ]
       },
       {
-        name: 'Roles',
-        routeOrFunction: '/roles',
-        icon: 'security',
-        position: 20
+        name: 'Comunidad',
+        icon: 'people',
+        position: 20,
+        subItems: [
+          {
+            name: 'Noticias',
+            routeOrFunction: '/noticias',
+            icon: 'inbox',
+            position: 5
+          },
+          {
+            name: 'Zona comun',
+            routeOrFunction: '/apps/zona-comun',
+            icon: 'meeting_room',
+            position: 10
+          },
+          {
+            name: 'Reglamento',
+            routeOrFunction: '/apps/reglamento',
+            icon: 'gavel',
+            position: 15
+          },
+        ]
       },
       {
-        name: 'Morosos',
-        routeOrFunction: '/apps/morosos',
-        icon: 'report_problem',
-        position: 25
+        name: 'Residencias',
+        icon: 'home_work',
+        position: 25,
+        subItems: [
+          {
+            name: 'Mascotas',
+            routeOrFunction: '/mascotas',
+            icon: 'pets',
+            position: 5
+          },
+          {
+            name: 'Casas',
+            routeOrFunction: '/casas',
+            icon: 'home',
+            position: 10
+          },
+        ]
       },
       {
-        name: 'Tesoreria',
-        routeOrFunction: '/apps/tesoreria',
-        icon: 'campaign',
-        position: 30
+        name: 'Servicios',
+        icon: 'store',
+        position: 30,
+        subItems: [
+          {
+            name: 'Proveedores',
+            routeOrFunction: '/proveedores',
+            icon: 'local_shipping',
+            position: 5
+          },
+          {
+            name: 'Mercado',
+            routeOrFunction: '/mercado',
+            icon: 'shopping_bag',
+            position: 10
+          },
+        ]
       },
-      {
-        name: 'Noticias',
-        routeOrFunction: '/noticias',
-        icon: 'inbox',
-        position: 35
-      },
-      {
-        name: 'Mascotas',
-        routeOrFunction: '/mascotas',
-        icon: 'pets',
-        position: 40
-      },
-      {
-        name: 'Zona comun',
-        routeOrFunction: '/apps/zona-comun',
-        icon: 'meeting_room',
-        position: 45
-      },
-      {
-        name: 'Reglamento',
-        routeOrFunction: '/apps/reglamento',
-        icon: 'gavel',
-        position: 50
-      },
-      {
-        name: 'Casas',
-        routeOrFunction: '/casas',
-        icon: 'home',
-        position: 50
-      },
-      {
-        name: 'Proveedores',
-        routeOrFunction: '/proveedores',
-        icon: 'local_shipping',
-        position: 50
-      },
-      {
-        name: 'Deudores',
-        routeOrFunction: '/deudores',
-        icon: 'account_balance_wallet',
-        position: 50
-      },
-      {
-        name: 'Mercado',
-        routeOrFunction: '/mercado',
-        icon: 'shopping_bag',
-        position: 50
-      },
+      // {
+      //   name: 'Cerrar sesión',
+      //   routeOrFunction: () => this.logout(), // o simplemente logout si está global
+      //   icon: 'logout',
+      //   position: 999 // posición al final
+      // },
       // {
       //   name: 'Chat',
       //   routeOrFunction: '/apps/chat',
@@ -193,33 +234,33 @@ export class AppComponent {
       //   icon: 'format_shapes',
       //   position: 60
       // },
-      {
-        name: 'PAGES',
-        type: 'subheading',
-        position: 65
-      },
-      {
-        name: 'Authentication',
-        icon: 'lock',
-        position: 66,
-        subItems: [
-          {
-            name: 'Login Page',
-            routeOrFunction: '/login',
-            position: 5
-          },
-          {
-            name: 'Register Page',
-            routeOrFunction: '/register',
-            position: 10
-          },
-          {
-            name: 'Forgot Password',
-            routeOrFunction: '/forgot-password',
-            position: 15
-          }
-        ]
-      },
+      // {
+      //   name: 'PAGES',
+      //   type: 'subheading',
+      //   position: 65
+      // },
+      // {
+      //   name: 'Authentication',
+      //   icon: 'lock',
+      //   position: 66,
+      //   subItems: [
+      //     {
+      //       name: 'Login Page',
+      //       routeOrFunction: '/login',
+      //       position: 5
+      //     },
+      //     {
+      //       name: 'Register Page',
+      //       routeOrFunction: '/register',
+      //       position: 10
+      //     },
+      //     {
+      //       name: 'Forgot Password',
+      //       routeOrFunction: '/forgot-password',
+      //       position: 15
+      //     }
+      //   ]
+      // },
       // {
       //   name: 'Page Layouts',
       //   icon: 'view_compact',
@@ -318,5 +359,15 @@ export class AppComponent {
 
   ngAfterViewInit() {
     this.cdr.detectChanges(); // ✅ corrige el error NG0100
+  }
+
+    logout() {
+    localStorage.removeItem('token');
+
+    document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+    window.location.href = '/login';
+    this.router.navigate(['/login']);
   }
 }

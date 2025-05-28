@@ -44,6 +44,13 @@
     </div>
 
     <fury-sidenav-item *ngFor="let item of items$ | async" [item]="item" [level]="0"></fury-sidenav-item>
+
+  <a mat-list-item class="logout-btn" (click)="logout()" style="margin-top: auto;">
+    <mat-icon>logout</mat-icon>
+    Cerrar sesión
+  </a>
+
   </fury-scrollbar>
 
 </div>
+

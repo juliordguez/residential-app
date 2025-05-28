@@ -54,4 +54,14 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
   }
+
+  logout() {
+    localStorage.removeItem('token');
+
+    document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+    window.location.href = '/login';
+    this.router.navigate(['/login']);
+  }
 }
