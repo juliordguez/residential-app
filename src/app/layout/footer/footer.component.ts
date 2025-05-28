@@ -15,6 +15,7 @@ export class FooterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.themeService.setFooterVisible(false);
   }
 
   hide() {
