@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { API_ENDPOINTS } from 'src/config/api-endpoints';
-
+import { ToastService } from './../shared/toast/toast.service';
+import { AuthService } from 'src/app/services/auth.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,25 +11,48 @@ export class ProveedorService {
 
   private baseUrl = API_ENDPOINTS.proveedores;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+              private authService: AuthService,
+              private toast: ToastService
+            ) {}
 
   getProveedores(): Observable<any> {
+    if (!this.authService.hasPermission('GETPRVDRSMET01')){
+      this.toast.error('Permisos insuficientes');
+      return;
+    }
     return this.http.get<any>(this.baseUrl.list);
   }
 
   getProveedor(id: number): Observable<any> {
+    if (!this.authService.hasPermission('GETPRVDRMET01')){
+      this.toast.error('Permisos insuficientes');
+      return;
+    }
     return this.http.get<any>(this.baseUrl.getById(id));
   }
 
   createProveedor(data: any): Observable<any> {
+    if (!this.authService.hasPermission('CREATPRVDRMET01')){
+      this.toast.error('Permisos insuficientes');
+      return;
+    }
     return this.http.post<any>(this.baseUrl.create, data);
   }
 
   updateProveedor(data: any): Observable<any> {
+    if (!this.authService.hasPermission('UPDTPRVDRMET01')){
+      this.toast.error('Permisos insuficientes');
+      return;
+    }
     return this.http.patch<any>(this.baseUrl.update, data);
   }
 
   deleteProveedor(id_proveedor: number): Observable<any> {
+    if (!this.authService.hasPermission('DELTPRVDRMET01')){
+      this.toast.error('Permisos insuficientes');
+      return;
+    }
     return this.http.delete<any>(this.baseUrl.delete(id_proveedor));
   }
 }
