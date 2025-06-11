@@ -129,14 +129,22 @@ export class LoginComponent implements OnInit {
       this.authService.login(loginData).subscribe({
         next: (response) => {
           // Guarda el token
-          localStorage.setItem('token', response.message.token);
+          console.log("document.cookie");
+          console.log(document.cookie);
+          console.log("response");
+          console.log(response);
+          console.log("response.message");
+          console.log(response.message);
 
+          if(!response.message.token){
+            this.router.navigate(['/login']);
+            return;
+          }
+          localStorage.setItem('token', response.message.token);
           // Decodificar el token y guardar campos en localStorage
           this.decodeAndStoreTokenData(response.message.token);
-
           // Marcar autenticado
           this.authService.setAuthenticated(true);
-
           // Redirigir
           this.router.navigate(['/dashboard']);
         },
