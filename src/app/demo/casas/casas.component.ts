@@ -15,6 +15,7 @@ import { CasaService } from '../../services/casas.service';
 import { LoaderService } from '../../shared/loader/loader.service';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { PAGE_SIZE_OPTIONS } from '../../shared/const';
+import { AuthService } from '../../services/auth.service'
 
 @Component({
   selector: 'fury-casas',
@@ -36,7 +37,7 @@ export class CasasComponent implements OnInit, AfterViewInit, OnDestroy {
     { name: 'Checkbox', property: 'checkbox', visible: false },
     { name: 'Image', property: 'image', visible: true },
     { name: 'Número', property: 'numero_casa', visible: true, isModelProperty: true },
-    { name: 'Fraccionamiento', property: 'id_fraccionamiento', visible: true, isModelProperty: true },
+    { name: 'Fraccionamiento', property: 'id_fraccionamiento', visible: false, isModelProperty: true },
     { name: 'Actions', property: 'actions', visible: true }
   ] as ListColumn[];  // 👈 mismo que en usuarios
 
@@ -49,8 +50,15 @@ export class CasasComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog,
     private casaService: CasaService,
     private toast: ToastService,
-    private loader: LoaderService
+    private loader: LoaderService,
+    private authService: AuthService,
+
   ) {}
+
+
+  hasPermission(permiso: string): boolean {
+  return this.authService.hasPermission(permiso);
+  }
 
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);

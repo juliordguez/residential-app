@@ -3,3 +3,110 @@
 .clickable {
   cursor: pointer;
 }
+
+.tabla-body-scroll {
+  max-height: 500px; // ajusta según tu diseño
+  overflow-y: auto;
+  padding-right: 8px;
+
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+  }
+}
+
+.matriz-mascotas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+  padding: 16px;
+
+  .mascota-item {
+    display: flex;
+    height: 100%;
+  }
+}
+
+.mascota-card-horizontal {
+  width: 100%;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease;
+  position: relative;
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+
+  &:hover {
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+  }
+
+  .card-wrapper {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+  }
+
+  .lado-izquierdo {
+    min-width: 100px;
+    max-width: 120px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+
+    .foto-mascota {
+      width: 100px;
+      height: 100px;
+      border-radius: 16px;
+      object-fit: cover;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .casa {
+      font-size: 13px;
+      color: #6b7280;
+      text-align: center;
+    }
+  }
+
+  .lado-derecho {
+    padding: 4px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+
+    .dato {
+      font-size: 14px;
+      color: #374151;
+
+      strong {
+        color: #111827;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .acciones-menu {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+  }
+}
+
+
+.paginator {
+  margin-top: 16px;
+}

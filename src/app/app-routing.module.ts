@@ -3,13 +3,15 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
 import { authGuard } from './guards/auth.guard';
+import { permissionGuard } from './guards/permissions.guard'
 
 
 const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import(`./demo/authentication/login/login.module`).then(m => m.LoginModule),
-    canActivate: [guestGuard]
+    canActivate: [guestGuard],
+    data: { permission: 'usuarios:view' }
   },
   {
     path: 'register',
@@ -39,22 +41,38 @@ const routes: Routes = [
       {
         path: 'mascotas',
         loadChildren: () => import(`./demo/mascotas/mascotas.module`).then(m => m.MascotasModule),
+        canActivate: [permissionGuard],
+        data: { permission: 'GETMSCTSMET01' }
       },
       {
         path: 'casas',
         loadChildren: () => import(`./demo/casas/casas.module`).then(m => m.CasasModule),
+        canActivate: [permissionGuard],
+        data: { permission: 'GETCSASMET01' }
       },
       {
         path: 'noticias',
         loadChildren: () => import(`./demo/noticias/noticias.module`).then(m => m.NoticiasModule),
+        canActivate: [permissionGuard],
+        data: { permission: 'GETNTCSMET01' }
       },
       {
         path: 'deudores',
         loadChildren: () => import(`./demo/deudores/deudores.module`).then(m => m.DeudoresModule),
+        canActivate: [permissionGuard],
+        data: { permission: 'GETDDRSMET01' }
       },
       {
         path: 'proveedores',
         loadChildren: () => import(`./demo/proveedores/proveedores.module`).then(m => m.ProveedoresModule),
+        canActivate: [permissionGuard],
+        data: { permission: 'GETPRVDRSMET01' }
+      },
+      {
+        path: 'perfil',
+        loadChildren: () => import(`./demo/perfil/perfil.module`).then(m => m.PerfilModule),
+        canActivate: [permissionGuard],
+        data: { permission: 'PERFIL_VIEW' }
       },
       // {
       //   path: 'forms/form-wizard',
@@ -71,10 +89,14 @@ const routes: Routes = [
       {
         path: 'usuarios',
         loadChildren: () => import(`./demo/usuarios/usuarios.module`).then(m => m.UsuariosModule),
+        canActivate: [permissionGuard],
+        data: { permission: 'GETUSRSMET01' }
       },
       {
         path: 'roles',
         loadChildren: () => import(`./demo/roles/roles.module`).then(m => m.RolesModule),
+        canActivate: [permissionGuard],
+        data: { permission: 'GETROLSMET01' }
       },
 
       // {

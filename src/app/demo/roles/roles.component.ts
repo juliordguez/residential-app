@@ -12,6 +12,7 @@ import { ToastService } from 'src/app/shared/toast/toast.service';
 import { LoaderService } from '../../shared/loader/loader.service';
 import { Role } from '../roles/role-create-update/role.model'
 import { PAGE_SIZE_OPTIONS } from '../../shared/const';
+import { AuthService } from '../../services/auth.service'
 
 @Component({
   selector: 'fury-roles',
@@ -22,7 +23,7 @@ export class RolesComponent implements OnInit, AfterViewInit {
 
   pageSize = 5;
   pageSizeOptions = PAGE_SIZE_OPTIONS;
-  
+
   subject$: ReplaySubject<Role[]> = new ReplaySubject<Role[]>(1);
   data$: Observable<Role[]> = this.subject$.asObservable();
   roles: Role[];
@@ -32,7 +33,7 @@ export class RolesComponent implements OnInit, AfterViewInit {
     { name: 'id Rol', property: 'id_rol', visible: false, isModelProperty: true },
     { name: 'Nombre Rol', property: 'name_rol', visible: true, isModelProperty: true },
     { name: 'Descripción', property: 'description', visible: true, isModelProperty: true },
-    { name: 'Fraccionamiento', property: 'id_fraccionamiento', visible: true, isModelProperty: true },
+    { name: 'Fraccionamiento', property: 'id_fraccionamiento', visible: false, isModelProperty: true },
     { name: 'Acciones', property: 'actions', visible: true }
   ] as ListColumn[];
 
@@ -48,11 +49,17 @@ export class RolesComponent implements OnInit, AfterViewInit {
     private roleService: RolService,
     private toast: ToastService,
     private loader: LoaderService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private authService: AuthService,
+
   ) {}
 
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
+  }
+
+    hasPermission(permiso: string): boolean {
+  return this.authService.hasPermission(permiso);
   }
 
   getRoles() {

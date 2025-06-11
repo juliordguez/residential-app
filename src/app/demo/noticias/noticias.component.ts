@@ -12,6 +12,7 @@ import { NoticiaService } from '../../services/noticia.service';
 import { LoaderService } from '../../shared/loader/loader.service';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { PAGE_SIZE_OPTIONS } from '../../shared/const';
+import { AuthService } from '../../services/auth.service'
 
 @Component({
   selector: 'fury-noticias',
@@ -46,15 +47,29 @@ export class NoticiasComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog,
     private noticiaService: NoticiaService,
     private toast: ToastService,
-    private loader: LoaderService
+    private loader: LoaderService,
+    private authService: AuthService,
+
   ) {}
+
+    hasPermission(permiso: string): boolean {
+  return this.authService.hasPermission(permiso);
+  }
+
+  isDate(value: any): boolean {
+    return (
+      typeof value === 'string' &&
+      !isNaN(Date.parse(value)) &&
+      value.includes('T') // Esto ayuda a filtrar valores ISO como "2025-05-20T23:59:59"
+    );
+  }
 
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
   }
 
   getNoticias() {
-    this.noticiaService.getNoticias(1).subscribe({
+    this.noticiaService.getNoticias().subscribe({
       next: (data) => {
         const noticias = data.message.map(n => new Noticia(n));
         this.subject$.next(noticias);
@@ -99,7 +114,7 @@ export class NoticiasComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!confirmed) return;
 
     this.loader.show();
-    this.noticiaService.deleteNoticia(1, noticia.id_noticia).subscribe({
+    this.noticiaService.deleteNoticia(noticia.id_noticia).subscribe({
       next: () => {
         this.getNoticias();
         this.toast.success('Noticia eliminada', `"${noticia.titulo}" fue eliminada correctamente`);

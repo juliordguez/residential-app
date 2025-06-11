@@ -5,7 +5,7 @@
 
   <fury-page-layout-content [@fadeInUp]>
     <fury-list name="noticias" [columns]="columns" (filterChange)="onFilterChange($event)">
-      <div class="actions">
+      <div *ngIf="hasPermission('CREATNTCMET01')" class="actions">
         <button class="create" (click)="createNoticia()" type="button" mat-mini-fab color="primary">
           <mat-icon>add</mat-icon>
         </button>
@@ -27,7 +27,15 @@
         <ng-container *ngFor="let column of columns">
           <ng-container *ngIf="column.isModelProperty" [matColumnDef]="column.property">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.name }}</th>
-            <td mat-cell *matCellDef="let row">{{ row[column.property] }}</td>
+            <!-- <td mat-cell *matCellDef="let row">{{ row[column.property] }}</td> -->
+                     <td mat-cell *matCellDef="let row">
+                        <ng-container *ngIf="isDate(row[column.property]); else noFormato">
+                          {{ row[column.property] | date:'yyyy-MM-dd HH:mm' }}
+                        </ng-container>
+                        <ng-template #noFormato>
+                          {{ row[column.property] }}
+                        </ng-template>
+                      </td>
           </ng-container>
         </ng-container>
 
@@ -35,23 +43,32 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let row">
-            <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+            <button *ngIf="hasPermission('DELTNTCMET01') || hasPermission('UPDTNTCMET01')" type="button" mat-icon-button [matMenuTriggerFor]="actionsMenu" (click)="$event.stopPropagation()">
               <mat-icon>more_horiz</mat-icon>
             </button>
 
             <mat-menu #actionsMenu="matMenu">
-              <button mat-menu-item (click)="updateNoticia(row)">
-                <span>Editar</span>
-              </button>
-              <button mat-menu-item (click)="deleteNoticia(row)">
-                <span>Eliminar</span>
-              </button>
+                <ng-container *ngIf="hasPermission('UPDTNTCMET01')">
+                  <button mat-menu-item (click)="updateNoticia(row)">
+                    <span>Editar</span>
+                  </button>
+                </ng-container>
+                <ng-container *ngIf="hasPermission('DELTNTCMET01')">
+                  <button mat-menu-item (click)="deleteNoticia(row)">
+                    <span>Eliminar</span>
+                  </button>
+                </ng-container>
+                <!-- <ng-container *ngIf="hasPermission('UPDTUSRMET01')">
+                </ng-container> -->
             </mat-menu>
           </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="visibleColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: visibleColumns" class="clickable"></tr>
+        <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
+        <tr (click)="hasPermission('UPDTNTCMET01') && updateNoticia(row)"
+            *matRowDef="let row; columns: visibleColumns;"
+            class="clickable route-animations-elements"
+            mat-row></tr>
       </table>
 
       <mat-paginator class="paginator"  [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"></mat-paginator>

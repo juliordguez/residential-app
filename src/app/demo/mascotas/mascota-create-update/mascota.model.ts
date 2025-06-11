@@ -17,3 +17,25 @@ export class Mascota {
     this.nombre = data.nombre || '';
   }
 }
+
+export class GetMascota {
+  id_mascota: number;
+  username: string;
+  tipo_mascota: string;
+  tamanho: string;
+  edad: number;
+  temperamento: string;
+  nombre: string;
+  numero_casa: string;
+
+  constructor(data: any) {
+    this.id_mascota = data.id_mascota || '';
+    this.username = data.username || '';
+    this.tipo_mascota = data.tipo_mascota || '';
+    this.tamanho = data.tamanho || '';
+    this.edad = data.edad || '';
+    this.temperamento = data.temperamento || '';
+    this.nombre = data.nombre || '';
+    this.numero_casa = data.numero_casa || '';
+  }
+}

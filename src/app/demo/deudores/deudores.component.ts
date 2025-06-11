@@ -12,6 +12,7 @@ import { DeudorService } from '../../services/deudor.service';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { LoaderService } from 'src/app/shared/loader/loader.service';
 import { PAGE_SIZE_OPTIONS } from '../../shared/const';
+import { AuthService } from '../../services/auth.service'
 
 @Component({
   selector: 'fury-deudores',
@@ -45,9 +46,15 @@ export class DeudoresComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog,
     private deudorService: DeudorService,
     private toast: ToastService,
-    private loader: LoaderService
+    private loader: LoaderService,
+    private authService: AuthService,
+
   ) {}
 
+  hasPermission(permiso: string): boolean {
+  return this.authService.hasPermission(permiso);
+  }
+  
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
   }

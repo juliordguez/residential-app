@@ -57,129 +57,299 @@ export class AppComponent {
       this.renderer.addClass(this.document.body, 'is-blink');
     }
 
-    this.sidenavService.addItems([
+    const menuItems: any[] = [];
+
+if (this.authService.hasPermission('DSHBRDVIEW01')) {
+  menuItems.push({
+    name: 'Dashboard',
+    routeOrFunction: '/',
+    icon: 'dashboard',
+    position: 5,
+    pathMatchExact: true
+  });
+}
+
+const adminSubItems = [];
+if (this.authService.hasPermission('GETUSRSMET01')) {
+  adminSubItems.push({
+    name: 'Usuarios',
+    routeOrFunction: '/usuarios',
+    icon: 'people',
+    badge: '22',
+    badgeColor: '#2196F3',
+    position: 5
+  });
+}
+
+if (this.authService.hasPermission('GETROLSMET01')) {
+  adminSubItems.push({
+    name: 'Roles',
+    routeOrFunction: '/roles',
+    icon: 'security',
+    position: 10
+  });
+}
+
+if (adminSubItems.length > 0) {
+  menuItems.push({
+    name: 'Administracion',
+    icon: 'admin_panel_settings',
+    position: 10,
+    subItems: adminSubItems
+  });
+}
+
+const finanzasSubItems = [];
+// if (this.authService.hasPermission('GETMRSOSMET01')) {
+//   finanzasSubItems.push({
+//     name: 'Morosos',
+//     routeOrFunction: '/apps/morosos',
+//     icon: 'report_problem',
+//     position: 5
+//   });
+// }
+
+if (this.authService.hasPermission('GETTSRAMET01')) {
+  finanzasSubItems.push({
+    name: 'Tesoreria',
+    routeOrFunction: '/apps/tesoreria',
+    icon: 'campaign',
+    position: 10
+  });
+}
+
+if (this.authService.hasPermission('GETDDRSMET01')) {
+  finanzasSubItems.push({
+    name: 'Deudores',
+    routeOrFunction: '/deudores',
+    icon: 'account_balance_wallet',
+    position: 65
+  });
+}
+
+if (finanzasSubItems.length > 0) {
+  menuItems.push({
+    name: 'Finanzas',
+    icon: 'attach_money',
+    position: 15,
+    subItems: finanzasSubItems
+  });
+}
+
+const comunidadSubItems = [];
+if (this.authService.hasPermission('GETNTCSMET01')) {
+  comunidadSubItems.push({
+    name: 'Noticias',
+    routeOrFunction: '/noticias',
+    icon: 'inbox',
+    position: 5
+  });
+}
+if (this.authService.hasPermission('GETZNCMTRSMET01')) {
+  comunidadSubItems.push({
+    name: 'Zona comun',
+    routeOrFunction: '/apps/zona-comun',
+    icon: 'meeting_room',
+    position: 10
+  });
+}
+if (this.authService.hasPermission('GETRGLMTOSMET01')) {
+  comunidadSubItems.push({
+    name: 'Reglamento',
+    routeOrFunction: '/apps/reglamento',
+    icon: 'gavel',
+    position: 15
+  });
+}
+
+if (comunidadSubItems.length > 0) {
+  menuItems.push({
+    name: 'Comunidad',
+    icon: 'people',
+    position: 20,
+    subItems: comunidadSubItems
+  });
+}
+
+const residenciasSubItems = [];
+if (this.authService.hasPermission('GETMSCTSMET01')) {
+  residenciasSubItems.push({
+    name: 'Mascotas',
+    routeOrFunction: '/mascotas',
+    icon: 'pets',
+    position: 5
+  });
+}
+if (this.authService.hasPermission('GETCSASMET01')) {
+  residenciasSubItems.push({
+    name: 'Casas',
+    routeOrFunction: '/casas',
+    icon: 'home',
+    position: 10
+  });
+}
+
+if (residenciasSubItems.length > 0) {
+  menuItems.push({
+    name: 'Residencias',
+    icon: 'home_work',
+    position: 25,
+    subItems: residenciasSubItems
+  });
+}
+
+const serviciosSubItems = [];
+if (this.authService.hasPermission('GETPRVDRSMET01')) {
+  serviciosSubItems.push({
+    name: 'Proveedores',
+    routeOrFunction: '/proveedores',
+    icon: 'local_shipping',
+    position: 5
+  });
+}
+if (this.authService.hasPermission('GETMRCDSMET01')) {
+  serviciosSubItems.push({
+    name: 'Mercado',
+    routeOrFunction: '/mercado',
+    icon: 'shopping_bag',
+    position: 10
+  });
+}
+if (serviciosSubItems.length > 0) {
+  menuItems.push({
+    name: 'Servicios',
+    icon: 'store',
+    position: 30,
+    subItems: serviciosSubItems
+  });
+}
+
+this.sidenavService.addItems(menuItems);
+
+
+    // this.sidenavService.addItems([
       // {
       //   name: 'APPS',
       //   position: 5,
       //   type: 'subheading',
       //   customClass: 'first-subheading'
       // },
-      {
-        name: 'Dashboard',
-        routeOrFunction: '/',
-        icon: 'dashboard',
-        position: 5,
-        pathMatchExact: true
-      },
-      {
-        name: 'Administracion',
-        icon: 'admin_panel_settings',
-        position: 10,
-        subItems: [
-        {
-          name: 'Usuarios',
-          routeOrFunction: '/usuarios',
-          icon: 'people',
-          badge: '22',
-          badgeColor: '#2196F3',
-          position: 5,
-        },
-        {
-          name: 'Roles',
-          routeOrFunction: '/roles',
-          icon: 'security',
-          position: 10
-        },
-        ]
-      },
-      {
-        name: 'Finanzas',
-        icon: 'attach_money',
-        position: 15,
-        subItems: [
-          {
-            name: 'Morosos',
-            routeOrFunction: '/apps/morosos',
-            icon: 'report_problem',
-            position: 5
-          },
-          {
-            name: 'Tesoreria',
-            routeOrFunction: '/apps/tesoreria',
-            icon: 'campaign',
-            position: 10
-          },
-          {
-            name: 'Deudores',
-            routeOrFunction: '/deudores',
-            icon: 'account_balance_wallet',
-            position: 65
-          },
-        ]
-      },
-      {
-        name: 'Comunidad',
-        icon: 'people',
-        position: 20,
-        subItems: [
-          {
-            name: 'Noticias',
-            routeOrFunction: '/noticias',
-            icon: 'inbox',
-            position: 5
-          },
-          {
-            name: 'Zona comun',
-            routeOrFunction: '/apps/zona-comun',
-            icon: 'meeting_room',
-            position: 10
-          },
-          {
-            name: 'Reglamento',
-            routeOrFunction: '/apps/reglamento',
-            icon: 'gavel',
-            position: 15
-          },
-        ]
-      },
-      {
-        name: 'Residencias',
-        icon: 'home_work',
-        position: 25,
-        subItems: [
-          {
-            name: 'Mascotas',
-            routeOrFunction: '/mascotas',
-            icon: 'pets',
-            position: 5
-          },
-          {
-            name: 'Casas',
-            routeOrFunction: '/casas',
-            icon: 'home',
-            position: 10
-          },
-        ]
-      },
-      {
-        name: 'Servicios',
-        icon: 'store',
-        position: 30,
-        subItems: [
-          {
-            name: 'Proveedores',
-            routeOrFunction: '/proveedores',
-            icon: 'local_shipping',
-            position: 5
-          },
-          {
-            name: 'Mercado',
-            routeOrFunction: '/mercado',
-            icon: 'shopping_bag',
-            position: 10
-          },
-        ]
-      },
+      // {
+      //   name: 'Dashboard',
+      //   routeOrFunction: '/',
+      //   icon: 'dashboard',
+      //   position: 5,
+      //   pathMatchExact: true
+      // },
+      // {
+      //   name: 'Administracion',
+      //   icon: 'admin_panel_settings',
+      //   position: 10,
+      //   subItems: [
+      //   {
+      //     name: 'Usuarios',
+      //     routeOrFunction: '/usuarios',
+      //     icon: 'people',
+      //     badge: '22',
+      //     badgeColor: '#2196F3',
+      //     position: 5,
+      //   },
+      //   {
+      //     name: 'Roles',
+      //     routeOrFunction: '/roles',
+      //     icon: 'security',
+      //     position: 10
+      //   },
+      //   ]
+      // },
+      // {
+      //   name: 'Finanzas',
+      //   icon: 'attach_money',
+      //   position: 15,
+      //   subItems: [
+      //     {
+      //       name: 'Morosos',
+      //       routeOrFunction: '/apps/morosos',
+      //       icon: 'report_problem',
+      //       position: 5
+      //     },
+      //     {
+      //       name: 'Tesoreria',
+      //       routeOrFunction: '/apps/tesoreria',
+      //       icon: 'campaign',
+      //       position: 10
+      //     },
+      //     {
+      //       name: 'Deudores',
+      //       routeOrFunction: '/deudores',
+      //       icon: 'account_balance_wallet',
+      //       position: 65
+      //     },
+      //   ]
+      // },
+      // {
+      //   name: 'Comunidad',
+      //   icon: 'people',
+      //   position: 20,
+      //   subItems: [
+      //     {
+      //       name: 'Noticias',
+      //       routeOrFunction: '/noticias',
+      //       icon: 'inbox',
+      //       position: 5
+      //     },
+      //     {
+      //       name: 'Zona comun',
+      //       routeOrFunction: '/apps/zona-comun',
+      //       icon: 'meeting_room',
+      //       position: 10
+      //     },
+      //     {
+      //       name: 'Reglamento',
+      //       routeOrFunction: '/apps/reglamento',
+      //       icon: 'gavel',
+      //       position: 15
+      //     },
+      //   ]
+      // },
+      // {
+      //   name: 'Residencias',
+      //   icon: 'home_work',
+      //   position: 25,
+      //   subItems: [
+      //     {
+      //       name: 'Mascotas',
+      //       routeOrFunction: '/mascotas',
+      //       icon: 'pets',
+      //       position: 5
+      //     },
+      //     {
+      //       name: 'Casas',
+      //       routeOrFunction: '/casas',
+      //       icon: 'home',
+      //       position: 10
+      //     },
+      //   ]
+      // },
+      // {
+      //   name: 'Servicios',
+      //   icon: 'store',
+      //   position: 30,
+      //   subItems: [
+      //     {
+      //       name: 'Proveedores',
+      //       routeOrFunction: '/proveedores',
+      //       icon: 'local_shipping',
+      //       position: 5
+      //     },
+      //     {
+      //       name: 'Mercado',
+      //       routeOrFunction: '/mercado',
+      //       icon: 'shopping_bag',
+      //       position: 10
+      //     },
+      //   ]
+      // },
       // {
       //   name: 'Cerrar sesión',
       //   routeOrFunction: () => this.logout(), // o simplemente logout si está global
@@ -339,7 +509,7 @@ export class AppComponent {
       //     }
       //   ]
       // }
-    ]);
+  //   ]);
   }
 
   ngOnInit(): void {

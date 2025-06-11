@@ -1,59 +1,72 @@
 <fury-page-layout mode="card">
   <fury-page-layout-header>
-    <fury-breadcrumbs [@fadeInRight] [crumbs]="['Gestión']" current="Mascotas"></fury-breadcrumbs>
+    <fury-breadcrumbs [@fadeInRight] [crumbs]="['Mascotas']" current="Lista"></fury-breadcrumbs>
   </fury-page-layout-header>
 
   <fury-page-layout-content [@fadeInUp]>
     <fury-list name="mascotas" [columns]="columns" (filterChange)="onFilterChange($event)">
-      <div class="actions">
-        <button class="create" (click)="createMascota()" mat-mini-fab color="primary">
+
+      <!-- Botón crear mascota -->
+      <div *ngIf="hasPermission('CREATUSRMET01')" class="actions">
+        <button class="create" (click)="createMascota()" type="button" mat-mini-fab color="primary">
           <mat-icon>add</mat-icon>
         </button>
       </div>
 
-      <table [dataSource]="dataSource" mat-table matSort>
+      <!-- CUERPO DE TABLA CON SCROLL -->
+      <div class="tabla-body-scroll">
+        <div class="matriz-mascotas">
+          <div class="mascota-item" *ngFor="let row of paginatedData">
+            <mat-card class="mat-elevation-z4 mascota-card-horizontal">
+              <div fxLayout="row" fxFlexFill class="card-wrapper">
 
-        <!-- Checkbox Column -->
-        <ng-container matColumnDef="checkbox">
-          <th *matHeaderCellDef mat-header-cell>
-            <mat-checkbox (click)="$event.stopPropagation()"></mat-checkbox>
-          </th>
-          <td *matCellDef="let row" mat-cell>
-            <mat-checkbox (click)="$event.stopPropagation()"></mat-checkbox>
-          </td>
-        </ng-container>
+                <!-- Lado izquierdo -->
+                <div fxFlex="0 0 180px" class="lado-izquierdo" fxLayout="column" fxLayoutAlign="center center">
+                <img
+                  class="foto-mascota"
+                  [src]="row.foto_url || '../../assets/img/default-pet.png'"
+                  (error)="row.foto_url = '../../assets/img/default-pet.png'"
+                  alt="{{ row.nombre }}"
+                />
+                  <div class="casa">
+                    🏠 {{ row.ubicacion || 'Sin casa asignada' }}
+                  </div>
+                </div>
 
-        <!-- Columnas dinámicas basadas en modelo -->
-        <ng-container *ngFor="let column of columns">
-          <ng-container *ngIf="column.isModelProperty" [matColumnDef]="column.property">
-            <th *matHeaderCellDef mat-header-cell mat-sort-header> {{ column.name }} </th>
-            <td *matCellDef="let row" mat-cell>
-              {{ row[column.property] }}
-            </td>
-          </ng-container>
-        </ng-container>
+                <!-- Lado derecho -->
+                <div fxFlex="1 1 0" class="lado-derecho" fxLayout="column" fxLayoutGap="6px" fxLayoutAlign="center start">
+                  <ng-container *ngFor="let column of columns">
+                    <div *ngIf="column.isModelProperty" class="dato">
+                      <strong>{{ column.name }}:</strong> {{ row[column.property] || '—' }}
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
 
-        <!-- Columna de acciones -->
-        <ng-container matColumnDef="actions">
-          <th *matHeaderCellDef mat-header-cell></th>
-          <td *matCellDef="let row" mat-cell>
-            <button mat-icon-button [matMenuTriggerFor]="actionsMenu" (click)="$event.stopPropagation()">
-              <mat-icon>more_horiz</mat-icon>
-            </button>
+              <!-- Menú de acciones -->
+              <div class="acciones-menu" *ngIf="hasPermission('UPDTMSCTMET01') || hasPermission('DELTMSCTMET01')">
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item *ngIf="hasPermission('UPDTMSCTMET01')" (click)="editMascota(row)">Editar</button>
+                  <button mat-menu-item *ngIf="hasPermission('DELTMSCTMET01')" (click)="deleteMascota(row)">Eliminar</button>
+                </mat-menu>
+              </div>
 
-            <mat-menu #actionsMenu="matMenu">
-              <button mat-menu-item (click)="editMascota(row)">Editar</button>
-              <button mat-menu-item (click)="deleteMascota(row)">Eliminar</button>
-            </mat-menu>
-          </td>
-        </ng-container>
+            </mat-card>
+          </div>
+        </div>
+      </div>
 
-        <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
-        <tr mat-row *matRowDef="let row; columns: visibleColumns;" class="clickable route-animations-elements"></tr>
+      <!-- Paginador -->
+      <mat-paginator class="paginator"
+                    [length]="dataSource?.data.length || 0"
+                    [pageSize]="pageSize"
+                    [pageSizeOptions]="pageSizeOptions"
+                    (page)="onPageChange($event)">
+      </mat-paginator>
 
-      </table>
-
-      <mat-paginator class="paginator"  [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"></mat-paginator>
     </fury-list>
   </fury-page-layout-content>
 </fury-page-layout>

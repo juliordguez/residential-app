@@ -5,7 +5,7 @@
 
   <fury-page-layout-content [@fadeInUp]>
     <fury-list name="casas" [columns]="columns" (filterChange)="onFilterChange($event)">
-      <div class="actions">
+      <div *ngIf="hasPermission('CREATCSAMET01')" class="actions">
         <button class="create" (click)="createCasa()" type="button" mat-mini-fab color="primary">
           <mat-icon>add</mat-icon>
         </button>
@@ -45,23 +45,28 @@
         <ng-container matColumnDef="actions">
           <th *matHeaderCellDef class="actions-cell" mat-header-cell mat-sort-header></th>
           <td *matCellDef="let row" class="actions-cell" mat-cell>
-            <button type="button" mat-icon-button [matMenuTriggerFor]="actionsMenu" (click)="$event.stopPropagation()">
+            <button *ngIf="hasPermission('DELTCSAMET01') || hasPermission('UPDTCSAMET01')" type="button" mat-icon-button [matMenuTriggerFor]="actionsMenu" (click)="$event.stopPropagation()">
               <mat-icon>more_horiz</mat-icon>
             </button>
 
             <mat-menu #actionsMenu="matMenu" yPosition="below" xPosition="before">
-              <button (click)="updateCasa(row)" mat-menu-item>
-                <span>Modify</span>
-              </button>
-              <button (click)="deleteCasa(row)" mat-menu-item>
-                <span>Delete</span>
-              </button>
+                <ng-container *ngIf="hasPermission('UPDTCSAMET01')">
+                  <button (click)="updateCasa(row)" mat-menu-item>
+                    <span>Modify</span>
+                  </button>
+                </ng-container>
+
+                <ng-container *ngIf="hasPermission('DELTCSAMET01')">
+                  <button (click)="deleteCasa(row)" mat-menu-item>
+                    <span>Delete</span>
+                  </button>
+                </ng-container>
             </mat-menu>
           </td>
         </ng-container>
 
         <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
-        <tr (click)="updateCasa(row)"
+        <tr (click)="hasPermission('UPDTCSAMET01') && updateCasa(row)"
             *matRowDef="let row; columns: visibleColumns;"
             class="clickable route-animations-elements"
             mat-row></tr>

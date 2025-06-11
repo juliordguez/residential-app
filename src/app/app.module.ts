@@ -14,6 +14,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { ToastMessageComponent } from './shared/toast/toast-message.component';
 import { CasasModule } from './demo/casas/casas.module';
+import { PerfilModule } from './demo/perfil/perfil.module';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { CasasModule } from './demo/casas/casas.module';
     // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     MatSnackBarModule,
     CommonModule,
-    CasasModule, // <-- Agregado aquí
+    CasasModule,
+    PerfilModule, // <-- Agregado aquí
 
   ],
   exports: [
