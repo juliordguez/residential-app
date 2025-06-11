@@ -137,18 +137,19 @@ class LoginComponent {
   }
   send() {
     if (this.form.valid) {
-      // Extraer valores del formulario
       const loginData = {
         identifier: this.form.value.identifier,
         pswd: this.form.value.pswd
       };
-      // Enviar al servicio de autenticación
       this.authService.login(loginData).subscribe({
         next: response => {
-          // Guarda el token en localStorage
+          // Guarda el token
           localStorage.setItem('token', response.message.token);
-          // Redirige o hace algo después del login
+          // Decodificar el token y guardar campos en localStorage
+          this.decodeAndStoreTokenData(response.message.token);
+          // Marcar autenticado
           this.authService.setAuthenticated(true);
+          // Redirigir
           this.router.navigate(['/dashboard']);
         },
         error: error => console.error('Error en login:', error)
@@ -164,6 +165,24 @@ class LoginComponent {
       this.inputType = 'text';
       this.visible = true;
       this.cd.markForCheck();
+    }
+  }
+  // 🔥 Función utilitaria para decodificar y guardar payload del token
+  decodeAndStoreTokenData(token) {
+    try {
+      const payloadBase64 = token.split('.')[1];
+      const payloadJson = atob(payloadBase64);
+      const payload = JSON.parse(payloadJson);
+      console.log('[DEBUG] Payload decodificado:', payload);
+      // Guarda los campos que necesites
+      localStorage.setItem('user_uuid', payload.user_uuid);
+      localStorage.setItem('id_fraccionamiento', payload.id_fraccionamiento?.toString());
+      localStorage.setItem('id_casa', payload.id_casa?.toString());
+      localStorage.setItem('roles', JSON.stringify(payload.roles));
+      localStorage.setItem('user_status', payload.user_status?.toString() || '');
+      localStorage.setItem('nick_name', payload.nick_name || '');
+    } catch (error) {
+      console.error('[ERROR] Al decodificar el token:', error);
     }
   }
   static #_ = this.ɵfac = function LoginComponent_Factory(t) {
