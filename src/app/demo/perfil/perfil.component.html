@@ -1,0 +1,59 @@
+<fury-page-layout mode="card">
+  <fury-page-layout-header>
+    <fury-breadcrumbs [crumbs]="['Perfil']" current="Mi Perfil"></fury-breadcrumbs>
+  </fury-page-layout-header>
+
+  <fury-page-layout-content fxLayout="column" fxLayoutAlign="center center">
+
+    <mat-card class="mat-elevation-z3 profile-card-centered">
+      <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="24px">
+
+        <!-- Avatar -->
+        <div class="avatar-wrapper">
+          <img
+            class="profile-avatar"
+            [src]="'assets/img/avatars/default.jpg'"
+            alt="avatar"
+          />
+          <button mat-mini-fab color="primary" class="edit-avatar-btn" matTooltip="Editar foto">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+
+        <!-- Información del usuario -->
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="8px">
+          <h2 class="mat-headline-6">{{ usuario.nombre }}</h2>
+          <div><strong>Casa:</strong> {{ usuario.casa }}</div>
+          <div><strong>Email:</strong> {{ usuario.email }}</div>
+        </div>
+
+        <mat-divider style="width: 100%;"></mat-divider>
+
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="8px">
+        <!-- Formulario -->
+          <h3 class="mat-subheading-1" style="text-align: center;">Restablecer contraseña</h3>
+          <form   [formGroup]="perfilForm"
+            (ngSubmit)="restablecerPassword()"  fxLayout="row"  fxLayoutGap="16px"  fxLayoutAlign="stretch center"  style="width: 100%;">
+            <!-- Input con 50% -->
+
+            <mat-form-field appearance="outline" fxFlex="50" style="padding-top: 10px;">
+              <mat-label>Nueva contraseña</mat-label>
+              <input matInput formControlName="nuevaPassword" type="password" required />
+              <mat-error *ngIf="perfilForm.get('nuevaPassword')?.invalid && perfilForm.get('nuevaPassword')?.touched">
+                Debe tener al menos 6 caracteres
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Botón con 50% -->
+            <div fxFlex="0">
+              <button mat-flat-button color="primary" type="submit" [disabled]="perfilForm.invalid" class="full-width-button">
+                Guardar cambios
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </mat-card>
+
+  </fury-page-layout-content>
+</fury-page-layout>

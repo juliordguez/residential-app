@@ -30,10 +30,18 @@ export class SidenavComponent implements OnInit, OnDestroy {
               private themeService: ThemeService) {
   }
 
+  nickname: string = 'Usuario';
+
   ngOnInit() {
     this.items$ = this.sidenavService.items$.pipe(
       map((items: SidenavItem[]) => this.sidenavService.sortRecursive(items, 'position'))
     );
+
+  const storedNick = localStorage.getItem('nickname');
+  if (storedNick) {
+    this.nickname = storedNick;
+  }
+
   }
 
   toggleCollapsed() {

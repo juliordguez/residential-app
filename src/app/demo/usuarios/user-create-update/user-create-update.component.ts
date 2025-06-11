@@ -50,8 +50,6 @@ export class UserCreateUpdateComponent implements OnInit {
     id_casa: [this.defaults.id_casa || null, Validators.required],
     id_rol: [this.defaults.id_rol || null, Validators.required]
   });
-
-  console.log('[DEBUG] Usuario recibido para edición:', this.defaults);
 }
 
 
@@ -61,7 +59,6 @@ loadRoles() {
   this.rolService.getRoles().subscribe({
     next: (data: any) => {
       this.roles = data.message;  // ✅ SOLO el array
-      console.log('[DEBUG] Roles cargados:', this.roles);
     },
     error: (err) => console.error('Error al cargar roles', err)
   });
@@ -73,7 +70,6 @@ loadCasas() {
   this.casasService.getCasas().subscribe({
     next: (data: any) => {
       this.casas = data.message;
-      console.log('[DEBUG] Casas cargadas:', this.casas);
     },
     error: (err) => console.error('Error al cargar casas', err)
   });
@@ -100,8 +96,6 @@ createUser() {
     id_rol: user.id_rol,
     id_fraccionamiento: 1
   };
-
-  console.log('[DEBUG] Payload para crear usuario:', payload);
 
   this.userService.createUser(payload).subscribe({
     next: (response) => {

@@ -15,7 +15,7 @@ import { UserService } from '../../services/user.services';
 import { LoaderService } from '../../shared/loader/loader.service';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { PAGE_SIZE_OPTIONS } from '../../shared/const';
-
+import { AuthService } from '../../services/auth.service'
 
 @Component({
   selector: 'fury-usuarios',
@@ -58,12 +58,17 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
               private userService: UserService,
               private toast: ToastService,
               private loader: LoaderService,
-              private cdr: ChangeDetectorRef
+              private cdr: ChangeDetectorRef,
+              private authService: AuthService,
   ) {
   }
 
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
+  }
+
+  hasPermission(permiso: string): boolean {
+  return this.authService.hasPermission(permiso);
   }
 
   getUsers() {

@@ -1,0 +1,46 @@
+@import "var";
+
+.clickable {
+  cursor: pointer;
+}
+
+/* Ancho dinámico y responsivo del card */
+.profile-card-centered {
+  width: 90vw;
+  max-width: 600px;
+  padding: 32px 24px;
+  border-radius: 16px;
+  background-color: #fff;
+}
+
+/* Avatar más pequeño */
+.avatar-wrapper {
+  position: relative;
+  width: 70px;
+  height: 70px;
+}
+
+/* Imagen circular perfectamente ajustada */
+.profile-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  display: block;
+}
+
+/* Botón de editar centrado al borde */
+.edit-avatar-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translate(25%, 25%);
+  z-index: 1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.full-width-button {
+  width: 100%;
+  height: 56px; // mismo alto que mat-form-field outline por defecto
+}

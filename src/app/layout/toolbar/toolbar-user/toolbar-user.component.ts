@@ -11,9 +11,12 @@ export class ToolbarUserComponent implements OnInit {
 
   isOpen: boolean;
 
+  nickname: string = 'Usuario';
+
   constructor(private router: Router) {}
 
   ngOnInit() {
+
   }
 
   toggleDropdown() {
@@ -33,5 +36,9 @@ export class ToolbarUserComponent implements OnInit {
     window.location.href = '/login';
     this.router.navigate(['/login']);
   }
+
+  closeDropdown() {
+  this.isOpen = false;
+}
 
 }
