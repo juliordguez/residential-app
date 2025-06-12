@@ -6220,45 +6220,35 @@ const _c1 = function () {
 };
 function SidenavComponent_div_13_Template(rf, ctx) {
   if (rf & 1) {
-    const _r5 = _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵgetCurrentView"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](0, "div", 14);
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelement"](1, "img", 15);
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](2, "img", 16);
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵlistener"]("error", function SidenavComponent_div_13_Template_img_error_2_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵrestoreView"](_r5);
-      const ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵnextContext"]();
-      return _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵresetView"](ctx_r4.row.url_imagen = "assets/img/default-service.png");
-    });
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](2, "h4", 16);
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](3);
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](3, "h4", 17);
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](5, "div", 18)(6, "a", 19)(7, "mat-icon");
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](8, "assignment");
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](4, "div", 17)(5, "a", 18)(6, "mat-icon");
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](7, "assignment");
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](9, "a", 19)(10, "mat-icon");
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](11, "date_range");
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](8, "a", 18)(9, "mat-icon");
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](10, "date_range");
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]()()()();
   }
   if (rf & 2) {
     const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("src", ctx_r2.row.url_imagen || "assets/img/default-service.png", _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵsanitizeUrl"]);
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](3);
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtextInterpolate"](ctx_r2.nickname);
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("routerLink", _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpureFunction0"](4, _c0));
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("routerLink", _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpureFunction0"](3, _c0));
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("routerLink", _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpureFunction0"](5, _c1));
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("routerLink", _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpureFunction0"](4, _c1));
   }
 }
 function SidenavComponent_fury_sidenav_item_15_Template(rf, ctx) {
   if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelement"](0, "fury-sidenav-item", 20);
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelement"](0, "fury-sidenav-item", 19);
   }
   if (rf & 2) {
-    const item_r6 = ctx.$implicit;
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("item", item_r6)("level", 0);
+    const item_r4 = ctx.$implicit;
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("item", item_r4)("level", 0);
   }
 }
 class SidenavComponent {
@@ -6322,7 +6312,7 @@ class SidenavComponent {
     },
     decls: 21,
     vars: 8,
-    consts: [["fxLayout", "column", 1, "sidenav"], ["fxLayout", "row", "fxLayoutAlign", "start center", 1, "sidenav-toolbar"], [1, "sidenav-toolbar-icon"], ["viewBox", "0 0 33.74 33.99", "xmlns", "http://www.w3.org/2000/svg"], ["d", "M26.83,19.33c-.36.37-.73.71-1.09,1l.31,3.22a5.41,5.41,0,0,1-2.43,5.14L15.72,34l-.67-8.74a6.54,6.54,0,0,1-6.57-6.53L0,18.18l5-7.93a5.41,5.41,0,0,1,5.23-2.54l3.1.31q.49-.55,1.05-1.11C20.78.54,30.82-.62,33.48.26,34.37,2.93,33.2,13,26.83,19.33Zm-.45-12a3.77,3.77,0,1,0,0,5.33A3.77,3.77,0,0,0,26.38,7.36ZM2.82,23.72l3.24-3.24a8.24,8.24,0,0,0,7.11,7.1L10.5,30.25,7.74,33V29.46L2.41,31.23l1.78-5.32H.64Z"], ["fxFlex", ""], ["fxFlexAlign", "center", "fxHide", "", "fxShow.gt-md", ""], ["mat-icon-button", "", 1, "sidenav-toolbar-collapse-toggle", 3, "click"], ["class", "sidenav-toolbar-collapse-icon", 4, "ngIf"], ["fxFlex", "auto", 1, "sidenav-items"], ["class", "sidenav-user", 4, "ngIf"], [3, "item", "level", 4, "ngFor", "ngForOf"], ["mat-list-item", "", 1, "logout-btn", 2, "margin-top", "auto", 3, "click"], [1, "sidenav-toolbar-collapse-icon"], [1, "sidenav-user"], ["src", "assets/img/default-user.png", 1, "sidenav-user-image"], [1, "sidenav-user-image", 3, "src", "error"], [1, "sidenav-user-name"], ["fxLayout", "row", 1, "sidenav-user-icons"], ["mat-icon-button", "", 3, "routerLink"], [3, "item", "level"]],
+    consts: [["fxLayout", "column", 1, "sidenav"], ["fxLayout", "row", "fxLayoutAlign", "start center", 1, "sidenav-toolbar"], [1, "sidenav-toolbar-icon"], ["viewBox", "0 0 33.74 33.99", "xmlns", "http://www.w3.org/2000/svg"], ["d", "M26.83,19.33c-.36.37-.73.71-1.09,1l.31,3.22a5.41,5.41,0,0,1-2.43,5.14L15.72,34l-.67-8.74a6.54,6.54,0,0,1-6.57-6.53L0,18.18l5-7.93a5.41,5.41,0,0,1,5.23-2.54l3.1.31q.49-.55,1.05-1.11C20.78.54,30.82-.62,33.48.26,34.37,2.93,33.2,13,26.83,19.33Zm-.45-12a3.77,3.77,0,1,0,0,5.33A3.77,3.77,0,0,0,26.38,7.36ZM2.82,23.72l3.24-3.24a8.24,8.24,0,0,0,7.11,7.1L10.5,30.25,7.74,33V29.46L2.41,31.23l1.78-5.32H.64Z"], ["fxFlex", ""], ["fxFlexAlign", "center", "fxHide", "", "fxShow.gt-md", ""], ["mat-icon-button", "", 1, "sidenav-toolbar-collapse-toggle", 3, "click"], ["class", "sidenav-toolbar-collapse-icon", 4, "ngIf"], ["fxFlex", "auto", 1, "sidenav-items"], ["class", "sidenav-user", 4, "ngIf"], [3, "item", "level", 4, "ngFor", "ngForOf"], ["mat-list-item", "", 1, "logout-btn", 2, "margin-top", "auto", 3, "click"], [1, "sidenav-toolbar-collapse-icon"], [1, "sidenav-user"], ["src", "row.url_imagen || 'assets/img/default-user.png'", 1, "sidenav-user-image"], [1, "sidenav-user-name"], ["fxLayout", "row", 1, "sidenav-user-icons"], ["mat-icon-button", "", 3, "routerLink"], [3, "item", "level"]],
     template: function SidenavComponent_Template(rf, ctx) {
       if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](0, "div", 0)(1, "div", 1)(2, "div", 2);
@@ -6342,7 +6332,7 @@ class SidenavComponent {
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtemplate"](11, SidenavComponent_mat_icon_11_Template, 2, 0, "mat-icon", 8);
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]()()();
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](12, "fury-scrollbar", 9);
-        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtemplate"](13, SidenavComponent_div_13_Template, 12, 6, "div", 10);
+        _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtemplate"](13, SidenavComponent_div_13_Template, 11, 5, "div", 10);
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpipe"](14, "async");
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtemplate"](15, SidenavComponent_fury_sidenav_item_15_Template, 1, 2, "fury-sidenav-item", 11);
         _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpipe"](16, "async");

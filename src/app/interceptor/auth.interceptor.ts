@@ -11,14 +11,6 @@ import { API_ENDPOINTS } from 'src/config/api-endpoints';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-    private readonly endpointsRequiringFraccId: string[] = [
-    '/users',
-    '/proveedores',
-    '/residencias',
-    '/actividades'
-    // agrega más rutas según tu API
-  ];
-
   private isProtectedRoute(url: string): boolean {
     const publicEndpoints = [
       API_ENDPOINTS.auth.login,
@@ -33,7 +25,6 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const accessToken = localStorage.getItem('token');
-    const fraccId = this.getFraccionamientoId();
 
 
     if (!accessToken && this.isProtectedRoute(req.url)) {
@@ -105,11 +96,6 @@ export class AuthInterceptor implements HttpInterceptor {
   //   return this.endpointsRequiringFraccId.some(endpoint => url.includes(endpoint));
   // }
 
-  private getFraccionamientoId(): string | null {
-    const local = localStorage.getItem('id_fraccionamiento');
-    const cookieMatch = document.cookie.match(/(^| )id_fraccionamiento=([^;]+)/);
-    return local || (cookieMatch ? cookieMatch[2] : null);
-  }
 }
 
 
