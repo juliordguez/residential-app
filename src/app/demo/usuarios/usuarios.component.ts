@@ -1,184 +1,141 @@
-import { UserResponse } from './../../models/response/user.model';
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild, ChangeDetectorRef  } from '@angular/core';
+
+import {
+  Component, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable, of, ReplaySubject } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { ListColumn } from '../../../../src/@fury/shared/list/list-column.model';
-import { UserCreateUpdateComponent } from './user-create-update/user-create-update.component';
-import { Usuario } from './user-create-update/user.model';
-import { fadeInRightAnimation } from '../../../../src//@fury/animations/fade-in-right.animation';
-import { fadeInUpAnimation } from '../../../../src/@fury/animations/fade-in-up.animation';
-import { UserService } from '../../services/user.services';
-import { LoaderService } from '../../shared/loader/loader.service';
+import { HttpClient } from '@angular/common/http';
 import { ToastService } from 'src/app/shared/toast/toast.service';
-import { PAGE_SIZE_OPTIONS } from '../../shared/const';
+import { LoaderService } from 'src/app/shared/loader/loader.service';
+import { UserCreateUpdateComponent } from './user-create-update/user-create-update.component';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
   selector: 'fury-usuarios',
   templateUrl: './usuarios.component.html',
-  styleUrls: ['./usuarios.component.scss'],
-  animations: [fadeInRightAnimation, fadeInUpAnimation]
+  styleUrls: ['./usuarios.component.scss']
 })
-
-export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
-
+export class UsuariosComponent implements OnInit, AfterViewInit {
+  displayedColumns: string[] = ['username','nickname', 'email', 'rol', 'casa', 'actions'];
+  dataSource = new MatTableDataSource<Usuario>();
   pageSize = 5;
-  pageSizeOptions = PAGE_SIZE_OPTIONS;
+  pageSizeOptions = [5, 10, 20];
 
-  subject$: ReplaySubject<Usuario[]> = new ReplaySubject<Usuario[]>(1);
-  data$: Observable<Usuario[]> = this.subject$.asObservable();
-  users: Usuario[];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  @Input()
-  columns: ListColumn[] = [
-    { name: 'Checkbox', property: 'checkbox', visible: false },
-    { name: 'Image', property: 'image', visible: true },
-    { name: 'Username', property: 'username', visible: true, isModelProperty: true },
-    { name: 'Email', property: 'email', visible: true, isModelProperty: true },
-    { name: 'Rol', property: 'rol', visible: true, isModelProperty: true },
-    { name: 'Casa', property: 'casa', visible: true, isModelProperty: true },
-    { name: 'Actions', property: 'actions', visible: true }
-
-  ] as ListColumn[];
-
-  dataSource: MatTableDataSource<Usuario> | null;
-
-  Users: any[] = [];
-
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-
+  user_uuid = localStorage.getItem('user_uuid') || '';
+  id_fraccionamiento = localStorage.getItem('id_fraccionamiento') || '';
 
   constructor(
-              private dialog: MatDialog,
-              private userService: UserService,
-              private toast: ToastService,
-              private loader: LoaderService,
-              private cdr: ChangeDetectorRef
-  ) {
-  }
-
-  get visibleColumns() {
-    return this.columns.filter(column => column.visible).map(column => column.property);
-  }
-
-  getUsers() {
-    this.userService.getUsers().subscribe({
-      next: (data) => {
-        console.log('[DEBUG] Respuesta cruda del backend:', data); // 🔍 aquí
-        const usuarios = data.message.map(user => new Usuario(user));
-        this.subject$.next(usuarios);
-      },
-      error: (err) => console.error('Error al cargar usuarios', err)
-    });
-    return ;
-  }
-
+    private http: HttpClient,
+    private dialog: MatDialog,
+    private toast: ToastService,
+    private loader: LoaderService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
-
-    this.getUsers();
-
-    this.dataSource = new MatTableDataSource();
-
-    this.data$.pipe(
-      filter(data => !!data)
-    ).subscribe((Usuarios) => {
-      this.users = Usuarios;
-      this.dataSource.data = Usuarios;
-    });
+    this.getUsuarios();
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  }
+
+  getUsuarios() {
+    this.loader.show();
+    this.http.get<Usuario[]>(
+      `${environment.apiDemo}/demo/usuarios/?id_fraccionamiento=${this.id_fraccionamiento}`
+    ).subscribe({
+      next: (data: any) => {
+        const usuarios = data.map(u => new Usuario(u));
+        this.dataSource.data = usuarios;
+        this.loader.hide();
+      },
+      error: (err) => {
+        this.toast.error('Error al cargar usuarios', err?.error?.detail || 'No se pudo cargar');
+        this.loader.hide();
+      }
+    });
   }
 
   createUsuario() {
-    this.dialog.open(UserCreateUpdateComponent).afterClosed().subscribe((usuario: Usuario) => {
-      /**
-       * Usuario is the updated Usuario (if the user pressed Save - otherwise it's null)
-       */
-      if (usuario) {
-        /**
-         * Here we are updating our local array.
-         * You would probably make an HTTP request here.
-         */
-        this.users.unshift(new Usuario(usuario));
-        this.subject$.next(this.users);
-        this.getUsers();
+    this.dialog.open(UserCreateUpdateComponent).afterClosed().subscribe(result => {
+      if (result) {
+        this.toast.success('Usuario registrado');
+        this.getUsuarios();
       }
     });
   }
 
-  updateUsuario(Usuario) {
-    console.log('[DEBUG] Usuario que se enviará al modal actualizar:', Usuario); // 👈
-
+  updateUsuario(usuario: Usuario) {
     this.dialog.open(UserCreateUpdateComponent, {
-      data: Usuario
-    }).afterClosed().subscribe((Usuario) => {
-      if (Usuario) {
-        const index = this.users.findIndex((existingUsuario) => existingUsuario.id === Usuario.id);
-        this.users[index] = new Usuario(Usuario);
-        this.subject$.next(this.users);
-        this.getUsers();
+      data: usuario
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        this.toast.success('Usuario actualizado');
+        this.getUsuarios();
       }
     });
   }
 
+  deleteUsuario(usuario: Usuario) {
+    if (!confirm(`¿Eliminar a ${usuario.username}?`)) return;
 
-
-
-
-
-
-deleteUsuario(usuario: Usuario) {
-  console.log('[DEBUG] Usuario que se enviará a eliminación:', usuario);
-
-  if (!usuario.user_uuid) {
-    this.toast.warning('UUID no definido', 'No se puede eliminar este usuario');
-    return;
+    this.loader.show();
+    this.http.delete(`${environment.apiDemo}/demo/usuarios/${usuario.user_uuid}`)
+      .subscribe({
+        next: () => {
+          this.toast.success('Usuario eliminado');
+          this.getUsuarios();
+        },
+        error: (err) => {
+          this.toast.error('Error al eliminar usuario', err?.error?.detail || 'No se pudo eliminar');
+          this.loader.hide();
+        }
+      });
   }
 
-  const confirmed = confirm(`¿Seguro que deseas eliminar a ${usuario.username}?`);
+  onFilterChange(value: string) {
+    this.dataSource.filter = value.trim().toLowerCase();
+  }
 
-  if (!confirmed) return;
-
-  this.loader.show(); // 👈 Inicia el loader
-
-  this.userService.deleteUser(usuario.user_uuid).subscribe({
-    next: () => {
-      this.users = this.users.filter(u => u.user_uuid !== usuario.user_uuid);
-      this.subject$.next(this.users);
-      this.toast.success('Usuario eliminado', `${usuario.username} fue eliminado correctamente`);
-    },
-    error: (err) => {
-      console.error('[ERROR] Falló la eliminación del usuario:', err);
-      this.toast.error('Error al eliminar usuario', err?.error?.detail || 'No se pudo eliminar el usuario');
-    },
-    complete: () => this.loader.hide() // 👈 Oculta el loader al finalizar
-  });
+  getAvatarName(row: Usuario): string {
+    return String((row.user_uuid || '').substring(0, 2));
+  }
 }
 
 
 
-  onFilterChange(value) {
-    if (!this.dataSource) {
-      return;
-    }
-    value = value.trim();
-    value = value.toLowerCase();
-    this.dataSource.filter = value;
-  }
 
-  getAvatarName(row: Usuario): string {
-    return String((row.id + 1) > 20 ? (row.id + 1) - (Math.floor(row.id / 10) * 10) : (row.id + 1));
-  }
 
-  ngOnDestroy() {
+
+class Usuario {
+  user_uuid: string;
+  username: string;
+  nickname: string;
+  email: string;
+  nombre_rol: string;
+  casas: string;
+
+  // 👉 los agregamos para el modal
+  id_role: number;
+  raw_casas: any[];
+
+  constructor(data: any) {
+    this.user_uuid = data.user_uuid || '';
+    this.username = data.username || '';
+    this.nickname = data.nickname || '';
+    this.email = data.email || '';
+    this.nombre_rol = data.nombre_rol || '';
+
+    this.id_role = data.id_role || null;  // <-- aquí sí se conserva
+    this.raw_casas = data.casas || [];    // <-- importante
+
+    this.casas = Array.isArray(data.casas)
+      ? data.casas.map(c => c.numero_casa).join(', ')
+      : '';
   }
 }

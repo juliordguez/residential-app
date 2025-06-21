@@ -30,10 +30,34 @@ export class AuthService {
   }
 
   /** Método para cerrar sesión */
-  logout(): void {
-    localStorage.removeItem('token');
-    this.authState.next(false);
-  }
+  // logout(): void {
+  //   localStorage.removeItem('token');
+  //   this.authState.next(false);
+  // }
+
+
+logout(): void {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user_uuid');
+  localStorage.removeItem('id_fraccionamiento');
+  localStorage.removeItem('id_casa');
+  localStorage.removeItem('roles');
+  localStorage.removeItem('user_status');
+  localStorage.removeItem('username');
+  localStorage.removeItem('nick_name');
+  localStorage.removeItem('email');
+  localStorage.removeItem('numero_casa');
+  localStorage.removeItem('nombre_completo');  // ya vi que también tienes este
+  localStorage.removeItem('role_uuid');  // ya vi que también tienes este
+  localStorage.removeItem('nickname');  // ya vi que también tienes este
+  localStorage.removeItem('name_rol');  // ya vi que también tienes este
+  localStorage.removeItem('id_role');  // ya vi que también tienes este
+  localStorage.removeItem('casas');  // ya vi que también tienes este
+
+
+  this.authState.next(false);
+}
+
 
   /** Verifica si el token es válido */
   checkToken(): boolean {

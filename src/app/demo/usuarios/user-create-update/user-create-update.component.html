@@ -1,4 +1,4 @@
-<h2 mat-dialog-title >{{ isCreateMode() ? 'Crear Usuario' : 'Editar Usuario' }}</h2>
+<h2 mat-dialog-title>{{ isCreateMode() ? 'Crear Usuario' : 'Editar Usuario' }}</h2>
 
 <mat-dialog-content [formGroup]="form" style="padding-top: 16px;">
   <div fxLayout="column" fxLayoutGap="16px">
@@ -6,40 +6,64 @@
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
       <input matInput formControlName="email" type="email">
+      <mat-error *ngIf="form.get('email')?.invalid">Campo obligatorio</mat-error>
     </mat-form-field>
 
-    <!-- <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username" />
+      <mat-error *ngIf="form.get('username')?.invalid">Campo obligatorio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
       <mat-label>Nick Name</mat-label>
-      <input matInput formControlName="nick_name">
-    </mat-form-field> -->
-
-
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>{{ isCreateMode() ? 'Username' : 'Nick Name' }}</mat-label>
-      <input matInput [formControlName]="isCreateMode() ? 'username' : 'nick_name'" required />
+      <input matInput formControlName="nickname" />
     </mat-form-field>
-
-
-
+<!-- 
     <mat-form-field appearance="outline">
       <mat-label>Rol</mat-label>
-      <mat-select formControlName="id_rol">
+      <mat-select formControlName="id_role">
         <mat-option [value]="null">-- Selecciona un rol --</mat-option>
-        <mat-option *ngFor="let rol of roles" [value]="rol.id_rol">
-          {{ rol.name_rol }}
+        <mat-option *ngFor="let rol of roles" [value]="rol.id_role">
+          {{ rol.nombre_rol }}
         </mat-option>
       </mat-select>
+      <mat-error *ngIf="form.get('id_role')?.invalid">Campo obligatorio</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Casa</mat-label>
-      <mat-select formControlName="id_casa">
-        <mat-option [value]="null">-- Selecciona una casa --</mat-option>
+      <mat-label>Casas</mat-label>
+      <mat-select formControlName="id_casas" multiple>
         <mat-option *ngFor="let casa of casas" [value]="casa.id_casa">
           {{ casa.numero_casa }}
         </mat-option>
       </mat-select>
-    </mat-form-field>
+      <mat-error *ngIf="form.get('id_casas')?.invalid">Selecciona al menos una casa</mat-error>
+    </mat-form-field> -->
+
+
+
+
+<mat-form-field appearance="outline">
+  <mat-label>Rol*</mat-label>
+  <mat-select formControlName="id_role">
+    <mat-option [value]="null">-- Selecciona un rol --</mat-option>
+    <mat-option *ngFor="let rol of roles" [value]="rol.id_role">
+      {{ rol.nombre_rol }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field appearance="outline">
+  <mat-label>Casas*</mat-label>
+  <mat-select formControlName="id_casas" multiple>
+    <mat-option *ngFor="let casa of casas" [value]="casa.id_casa">
+      {{ casa.numero_casa }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+
 
   </div>
 </mat-dialog-content>
@@ -50,3 +74,4 @@
     {{ isCreateMode() ? 'Crear' : 'Guardar' }}
   </button>
 </mat-dialog-actions>
+

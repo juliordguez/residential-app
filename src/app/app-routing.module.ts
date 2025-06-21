@@ -56,6 +56,10 @@ const routes: Routes = [
         path: 'proveedores',
         loadChildren: () => import(`./demo/proveedores/proveedores.module`).then(m => m.ProveedoresModule),
       },
+      {
+        path: 'vehiculos',
+        loadChildren: () => import(`./demo/vehiculos/vehiculo.module`).then(m => m.VehiculoModule),
+      },
       // {
       //   path: 'forms/form-wizard',
       //   loadChildren: () => import(`./demo/forms/form-wizard/form-wizard.module`).then(m => m.FormWizardModule),
@@ -75,6 +79,21 @@ const routes: Routes = [
       {
         path: 'roles',
         loadChildren: () => import(`./demo/roles/roles.module`).then(m => m.RolesModule),
+      },
+
+      {
+        path: 'zona-comun',
+        loadChildren: () => import(`./demo/zona-comun/zona-comun.module`).then(m => m.ZonaComunModule),
+      },
+
+      {
+        path: 'reglamento',
+        loadChildren: () => import(`./demo/reglamento/reglamento.module`).then(m => m.ReglamentoModule),
+      },
+
+      {
+        path: 'vecinos',
+        loadChildren: () => import(`./demo/vecinos/vecinos.module`).then(m => m.VecinosModule),
       },
 
       // {

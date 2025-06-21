@@ -1,0 +1,141 @@
+<!-- <h2 mat-dialog-title>{{ isCreateMode() ? 'Crear Evento' : 'Editar Evento' }}</h2>
+
+<mat-dialog-content [formGroup]="form" style="padding-top: 16px;">
+  <div fxLayout="column" fxLayoutGap="16px">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre del Evento</mat-label>
+      <input matInput formControlName="nombre_evento">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="descripcion_evento"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha y Hora de Inicio</mat-label>
+      <input matInput formControlName="fecha_inicio" type="datetime-local">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha y Hora de Fin</mat-label>
+      <input matInput formControlName="fecha_fin" type="datetime-local">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" disabled>
+      <mat-label>Usuario</mat-label>
+      <input matInput [value]="nickname" disabled>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" disabled>
+      <mat-label>Casa</mat-label>
+      <input matInput [value]="numero_casa" disabled>
+    </mat-form-field>
+
+  </div>
+</mat-dialog-content>
+
+
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+
+  <button *ngIf="isCreateMode() || (isUpdateMode() && isOwner)"
+          mat-raised-button
+          color="primary"
+          (click)="save()">Guardar</button>
+
+
+<button *ngIf="isUpdateMode() && isOwner"
+        mat-raised-button color="warn"
+        (click)="delete()">
+    Eliminar
+</button>
+
+</mat-dialog-actions> -->
+
+
+
+
+
+
+
+
+
+
+
+<h2 mat-dialog-title>{{ isCreateMode() ? 'Crear Evento' : 'Editar Evento' }}</h2>
+
+<mat-dialog-content [formGroup]="form" style="padding-top: 16px;">
+  <div fxLayout="column" fxLayoutGap="16px">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre del Evento</mat-label>
+      <input matInput formControlName="nombre_evento">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="descripcion_evento"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha y Hora de Inicio</mat-label>
+      <input matInput formControlName="fecha_inicio" type="datetime-local">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha y Hora de Fin</mat-label>
+      <input matInput formControlName="fecha_fin" type="datetime-local">
+    </mat-form-field>
+
+    <!-- <mat-form-field appearance="outline" disabled>
+      <mat-label>Usuario</mat-label>
+      <input matInput [value]="username" disabled>
+    </mat-form-field> -->
+
+    <mat-form-field appearance="outline" disabled>
+      <mat-label>Usuario</mat-label>
+      <input matInput [value]="nicknameUsuario" disabled>
+    </mat-form-field>
+
+    <!-- Lista de casas -->
+    <!-- <mat-form-field appearance="outline">
+      <mat-label>Casa</mat-label>
+      <mat-select formControlName="id_casa">
+        <mat-option *ngFor="let casa of casas" [value]="casa.id_casa">
+          {{ casa.numero_casa }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+     -->
+
+<mat-form-field appearance="outline" >
+  <mat-label>Casa</mat-label >
+  <mat-select formControlName="id_casa" [disabled]="isUpdateMode()">
+    <mat-option *ngFor="let casa of casas" [value]="casa.id_casa" [disabled]="isUpdateMode()">
+      {{ casa.numero_casa }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+
+
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+
+  <button *ngIf="isCreateMode() || (isUpdateMode() && isOwner)"
+          mat-raised-button
+          color="primary"
+          (click)="save()">Guardar</button>
+
+  <button *ngIf="isUpdateMode() && isOwner"
+          mat-raised-button color="warn"
+          (click)="delete()">
+    Eliminar
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,24 @@
+
+
+<fury-page-layout mode="card">
+  <fury-page-layout-header>
+    <fury-breadcrumbs [crumbs]="['Comunidad']" current="Zona Común"></fury-breadcrumbs>
+  </fury-page-layout-header>
+
+  <fury-page-layout-content>
+
+    <fury-list name="zona-comun">
+      <div class="actions" style="margin-bottom: 16px;">
+        <button class="create" (click)="createEvento()" type="button" mat-mini-fab color="primary" matTooltip="Crear evento">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      <div style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px;">
+        <full-calendar [options]="calendarOptions"></full-calendar>
+      </div>
+
+    </fury-list>
+
+  </fury-page-layout-content>
+</fury-page-layout>

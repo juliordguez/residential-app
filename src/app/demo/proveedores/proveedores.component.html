@@ -1,73 +1,69 @@
+
+
+
 <fury-page-layout mode="card">
   <fury-page-layout-header>
-    <fury-breadcrumbs [@fadeInRight] [crumbs]="['Catálogos']" current="Proveedores"></fury-breadcrumbs>
+    
+    <fury-breadcrumbs [@fadeInRight] [crumbs]="['Servicios']" current="Proveedores"></fury-breadcrumbs>
   </fury-page-layout-header>
 
   <fury-page-layout-content [@fadeInUp]>
-    <fury-list name="proveedores" [columns]="columns" (filterChange)="onFilterChange($event)">
+    <fury-list name="proveedores" (filterChange)="onFilterChange($event)">
       <div class="actions">
+        <!-- ✅ Esta línea ya llama correctamente a createProveedor() -->
         <button class="create" (click)="createProveedor()" type="button" mat-mini-fab color="primary">
           <mat-icon>add</mat-icon>
         </button>
       </div>
 
-      <table [dataSource]="dataSource" mat-table matSort>
+      <div style="
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 20px;
+        padding: 10px;
+        justify-items: center;">
+        
+        <mat-card *ngFor="let p of currentPageData" style="width: 350px; border-radius: 12px; padding: 16px;margin-top: 15px;">
+          <mat-card-content>
+            <mat-icon [style.fontSize.px]="32" style="color: #3f51b5;">{{ getTipoIcon(p.nombre_tipo_servicio) }}</mat-icon>
+            <h3 style="margin: 5px 0;">{{ p.nombre_proveedor }}</h3>
+            <p style="margin: 0; font-weight: bold; color: gray;">{{ p.nombre_tipo_servicio }}</p>
+            <p style="margin-top: 10px;">{{ p.descripcion }}</p>
 
-        <!-- Checkbox Column -->
-        <ng-container matColumnDef="checkbox">
-          <th *matHeaderCellDef class="actions-cell" mat-header-cell>
-            <mat-checkbox color="primary" (click)="$event.stopPropagation()"></mat-checkbox>
-          </th>
-          <td *matCellDef="let row" class="actions-cell" mat-cell>
-            <mat-checkbox color="primary" (click)="$event.stopPropagation()"></mat-checkbox>
-          </td>
-        </ng-container>
+            <div style="margin-top: 10px; display: flex; align-items: center;">
+              <mat-icon
+                style="cursor:pointer; margin-right:5px;"
+                [style.color]="p.ya_recomendado_por_user_actual ? 'red' : 'gray'"
+                (click)="toggleRecomendacion(p)"
+                (mouseenter)="loadRecomendadores(p.id_proveedor)"
+                [matTooltip]="getRecomendadoresTooltipHTML(p.id_proveedor)"
+                matTooltipPosition="above"
+                [matTooltipClass]="'custom-tooltip'"
+              >
+                favorite
+              </mat-icon>
 
-        <!-- Image Column -->
-        <ng-container matColumnDef="image">
-          <th *matHeaderCellDef class="image-cell" mat-header-cell></th>
-          <td *matCellDef="let row" class="image-cell" mat-cell>
-            <img [src]="row.url_imagen || 'assets/img/avatars/' + getAvatarName(row) + '.jpg'"
-                 alt="Proveedor" width="40" height="40"
-                 style="object-fit: cover; border-radius: 50%;">
-          </td>
-        </ng-container>
+              <span style="font-weight: bold;">
+                {{ p.total_recomendaciones }} recomendaciones
+              </span>
+            </div>
 
-        <!-- Columnas dinámicas -->
-        <ng-container *ngFor="let column of columns">
-          <ng-container *ngIf="column.isModelProperty" [matColumnDef]="column.property">
-            <th *matHeaderCellDef mat-header-cell mat-sort-header> {{ column.name }}</th>
-            <td *matCellDef="let row" mat-cell>
-              {{ row[column.property] }}
-            </td>
-          </ng-container>
-        </ng-container>
+            <hr style="margin: 10px 0;" />
 
-        <!-- Acciones -->
-        <ng-container matColumnDef="actions">
-          <th *matHeaderCellDef class="actions-cell" mat-header-cell mat-sort-header></th>
-          <td *matCellDef="let row" class="actions-cell" mat-cell>
-            <button type="button" mat-icon-button [matMenuTriggerFor]="actionsMenu" (click)="$event.stopPropagation()">
-              <mat-icon>more_horiz</mat-icon>
-            </button>
+            <p *ngIf="p.telefono"><strong>Tel:</strong> {{ p.telefono }}</p>
+            <p *ngIf="p.correo"><strong>Email:</strong> {{ p.correo }}</p>
+            <p *ngIf="p.website"><strong>Website:</strong>
+              <a [href]="p.website" target="_blank">{{ p.website }}</a>
+            </p>
 
-            <mat-menu #actionsMenu="matMenu" yPosition="below" xPosition="before">
-              <button (click)="updateProveedor(row)" mat-menu-item>
-                <span>Modificar</span>
-              </button>
-              <button (click)="deleteProveedor(row)" mat-menu-item>
-                <span>Eliminar</span>
-              </button>
-            </mat-menu>
-          </td>
-        </ng-container>
+            <div style="margin-top: 10px;">
+              <a href="javascript:void(0);" (click)="updateProveedor(p)">Editar</a> |
+              <a href="javascript:void(0);" (click)="deleteProveedor(p)" style="color: red;">Eliminar</a>
+            </div>
+          </mat-card-content>
+        </mat-card>
 
-        <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
-        <tr (click)="updateProveedor(row)"
-            *matRowDef="let row; columns: visibleColumns;"
-            class="clickable route-animations-elements"
-            mat-row></tr>
-      </table>
+      </div>
 
       <mat-paginator class="paginator" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"></mat-paginator>
     </fury-list>

@@ -1,0 +1,72 @@
+
+
+
+
+
+<fury-page-layout mode="card">
+
+  <fury-page-layout-header>
+    <fury-breadcrumbs [crumbs]="['Reglamento']" current="Reglamento"></fury-breadcrumbs>
+  </fury-page-layout-header>
+
+  <fury-page-layout-content>
+
+    <!-- Tu input de archivo -->
+    <input type="file" accept="application/pdf" (change)="onFileSelected($event)" style="display:none;" #fileInput>
+
+    <!-- Botón para abrir el file dialog -->
+    <button mat-raised-button color="primary" (click)="fileInput.click()">
+      <mat-icon>upload</mat-icon> Subir Reglamento en PDF
+    </button>
+
+    <span *ngIf="selectedFile" style="margin-left: 10px;">
+      Archivo seleccionado: {{ selectedFile.name }}
+    </span>
+
+    <!-- Modal de Confirmar Subida -->
+    <div *ngIf="selectedFile" class="modal-overlay">
+      <div class="modal-content">
+        <button mat-raised-button color="accent" (click)="uploadSelectedFile()">
+          <mat-icon>cloud_upload</mat-icon> Confirmar Subida
+        </button>
+        <br /><br />
+        <button mat-button color="warn" (click)="cancelUpload()" style="font-size: 12px;">
+          Cancelar
+        </button>
+      </div>
+    </div>
+
+    <!-- Resto de la página (listado de reglamentos) -->
+    <hr style="margin-top: 45px;" />
+
+    <ng-container *ngIf="reglamentos.length === 0">
+      <p>No hay reglamentos cargados.</p>
+    </ng-container>
+
+    <mat-card *ngFor="let reg of reglamentos" style="margin-bottom: 10px;">
+      <mat-card-content>
+        <mat-icon style="vertical-align: middle; color: rgb(91, 91, 91); margin-right: 10px;">picture_as_pdf</mat-icon>
+        {{ reg.nombre_documento }} ({{ reg.fecha_subida }})
+
+        <div style="float: right;">
+          <!-- Botón de visualizar -->
+          <button mat-icon-button color="primary" (click)="viewReglamento(reg.id_documento)">
+            <mat-icon>visibility</mat-icon>
+          </button>
+
+          <!-- Botón de descargar -->
+          <button mat-icon-button color="primary" (click)="downloadReglamento(reg.id_documento)">
+            <mat-icon>download</mat-icon>
+          </button>
+
+          <!-- Botón de eliminar -->
+          <button mat-icon-button color="warn" (click)="deleteReglamento(reg.id_documento)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </fury-page-layout-content>
+
+</fury-page-layout>

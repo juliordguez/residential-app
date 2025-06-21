@@ -1,8 +1,10 @@
+
 import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastService } from 'src/app/shared/toast/toast.service';
-import { ProveedorService } from '../../../services/proveedor.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'fury-proveedor-create-update',
@@ -12,28 +14,88 @@ import { ProveedorService } from '../../../services/proveedor.service';
 export class ProveedorCreateUpdateComponent implements OnInit {
   form: UntypedFormGroup;
   mode: 'create' | 'update' = 'create';
+  tipos: any[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public defaults: any,
     private dialogRef: MatDialogRef<ProveedorCreateUpdateComponent>,
     private fb: UntypedFormBuilder,
-    private proveedorService: ProveedorService,
-    private toast: ToastService
+    private toast: ToastService,
+    private http: HttpClient
   ) {}
 
-  ngOnInit(): void {
-    if (this.defaults && this.defaults.id_proveedor) {
+  ngOnInit() {
+    this.loadTipos();
+
+    if (this.defaults) {
       this.mode = 'update';
     } else {
       this.defaults = {};
     }
 
     this.form = this.fb.group({
-      nombre: [this.defaults.nombre || '', Validators.required],
-      tipo_servicio: [this.defaults.tipo_servicio || '', Validators.required],
-      telefono: [this.defaults.telefono || '', Validators.required],
-      correo: [this.defaults.correo || '', Validators.required],
-      url_imagen: [this.defaults.url_imagen || '']
+      nombre_proveedor: [this.defaults.nombre_proveedor || '', Validators.required],
+      id_tipo_servicio: [this.defaults.id_tipo_servicio || null, Validators.required],
+      telefono: [this.defaults.telefono || ''],
+      correo: [this.defaults.correo || ''],
+      website: [this.defaults.website || ''],
+      descripcion: [this.defaults.descripcion || '']
+    });
+
+    console.log('[DEBUG] Proveedor recibido para edición:', this.defaults);
+  }
+
+  loadTipos() {
+    this.http.get<any[]>(`${environment.apiDemo}/demo/tipos_servicio`).subscribe({
+      next: (data) => {
+        this.tipos = data;
+        console.log('[DEBUG] Tipos de servicio cargados:', this.tipos);
+      },
+      error: (err) => console.error('Error al cargar tipos de servicio', err)
+    });
+  }
+
+  save() {
+    if (this.mode === 'create') {
+      this.createProveedor();
+    } else {
+      this.updateProveedor();
+    }
+  }
+
+  createProveedor() {
+    const payload = {
+      ...this.form.value,
+      id_fraccionamiento: Number(localStorage.getItem('id_fraccionamiento') || 1)
+    };
+
+    this.http.post(`${environment.apiDemo}/demo/proveedores`, payload).subscribe({
+      next: (res) => {
+        this.toast.success('Proveedor creado', 'Se ha creado exitosamente');
+        this.dialogRef.close(res);
+      },
+      error: (err) => {
+        this.toast.error('Error al crear proveedor', err?.error?.detail || 'Ocurrió un error inesperado');
+        console.error(err);
+      }
+    });
+  }
+
+  updateProveedor() {
+    const payload = {
+      ...this.form.value,
+      id_fraccionamiento: Number(localStorage.getItem('id_fraccionamiento') || 1)
+    };
+
+    this.http.put(`${environment.apiDemo}/demo/proveedores/${this.defaults.id_proveedor}`, payload).subscribe({
+      next: (res) => {
+        this.toast.success('Proveedor modificado', 'Cambios guardados correctamente');
+        this.dialogRef.close(res);
+      },
+      error: (err) => {
+        this.toast.error('Error al modificar proveedor', err?.error?.detail || 'No se pudo actualizar');
+        console.error(err);
+      }
     });
   }
 
@@ -41,49 +103,7 @@ export class ProveedorCreateUpdateComponent implements OnInit {
     return this.mode === 'create';
   }
 
-  save(): void {
-    if (this.isCreateMode()) {
-      this.createProveedor();
-    } else {
-      this.updateProveedor();
-    }
-  }
-
-  createProveedor(): void {
-    const payload = {
-      ...this.form.value,
-      id_fraccionamiento: 1
-    };
-
-    this.proveedorService.createProveedor(payload).subscribe({
-      next: (response) => {
-        this.toast.success('Proveedor creado', 'Se ha creado exitosamente');
-        this.dialogRef.close(response);
-      },
-      error: (error) => {
-        this.toast.error('Error al crear proveedor', error?.error?.detail || 'Error inesperado');
-      }
-    });
-  }
-
-  updateProveedor(): void {
-    const payload = {
-      ...this.form.value,
-      id_proveedor: this.defaults.id_proveedor
-    };
-
-    this.proveedorService.updateProveedor(payload).subscribe({
-      next: (response) => {
-        this.toast.success('Proveedor actualizado', 'Cambios guardados correctamente');
-        this.dialogRef.close(response);
-      },
-      error: (error) => {
-        this.toast.error('Error al actualizar proveedor', error?.error?.detail || 'Error inesperado');
-      }
-    });
-  }
-
-  close(): void {
-    this.dialogRef.close();
+  isUpdateMode() {
+    return this.mode === 'update';
   }
 }

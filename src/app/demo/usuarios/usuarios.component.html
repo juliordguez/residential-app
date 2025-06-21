@@ -1,79 +1,83 @@
+
 <fury-page-layout mode="card">
   <fury-page-layout-header>
-    <fury-breadcrumbs [@fadeInRight] [crumbs]="['Tables']" current="Usuarios"></fury-breadcrumbs>
+    <fury-breadcrumbs [@fadeInRight] [crumbs]="['Administración']" current="Usuarios"></fury-breadcrumbs>
   </fury-page-layout-header>
 
   <fury-page-layout-content [@fadeInUp]>
-    <fury-list name="usuarios" [columns]="columns" (filterChange)="onFilterChange($event)">
+    <fury-list name="usuarios" (filterChange)="onFilterChange($event)">
       <div class="actions">
         <button class="create" (click)="createUsuario()" type="button" mat-mini-fab color="primary">
           <mat-icon>add</mat-icon>
         </button>
       </div>
 
-      <table [dataSource]="dataSource" mat-table matSort>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z2" matSort>
 
-        <!--- Note that these columns can be defined in any order.
-              The actual rendered columns are set as a property on the row definition" -->
-
-        <!-- Checkbox Column -->
-        <ng-container matColumnDef="checkbox">
-          <th *matHeaderCellDef class="actions-cell" mat-header-cell>
-            <mat-checkbox color="primary" (click)="$event.stopPropagation()"></mat-checkbox>
-          </th>
-          <td *matCellDef="let row" class="actions-cell" mat-cell>
-            <mat-checkbox color="primary" (click)="$event.stopPropagation()"></mat-checkbox>
+        <!-- Avatar -->
+        <ng-container matColumnDef="avatar">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let row">
+            <img src="assets/img/avatars/{{ getAvatarName(row) }}.jpg" alt="avatar" width="40">
           </td>
         </ng-container>
 
-        <!-- Image Column -->
-        <ng-container matColumnDef="image">
-          <th *matHeaderCellDef class="image-cell" mat-header-cell></th>
-          <td *matCellDef="let row" class="image-cell" mat-cell>
-            <img src="assets/img/avatars/{{ getAvatarName(row) }}.jpg">
-          </td>
-        </ng-container>
-
-        <!-- fullName Column -->
-        <ng-container *ngFor="let column of columns">
-          <ng-container *ngIf="column.isModelProperty" [matColumnDef]="column.property">
-            <th *matHeaderCellDef mat-header-cell mat-sort-header> {{ column.name }}</th>
-            <td *matCellDef="let row" mat-cell>
-              {{ row[column.property] }}
-            </td>
-          </ng-container>
+        <!-- Username -->
+        <ng-container matColumnDef="username">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Username</th>
+          <td mat-cell *matCellDef="let row">{{ row.username }}</td>
         </ng-container>
 
 
-        <!-- actions Column -->
+        <ng-container matColumnDef="nickname">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Nickname</th>
+          <td mat-cell *matCellDef="let row">{{ row.nickname }}</td>
+        </ng-container>
+
+        <!-- Email -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+          <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+        </ng-container>
+
+        <!-- Rol -->
+        <ng-container matColumnDef="rol">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Rol</th>
+          <td mat-cell *matCellDef="let row">{{ row.nombre_rol }}</td>
+        </ng-container>
+
+        <!-- Casa -->
+        <ng-container matColumnDef="casa">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Casa</th>
+          <td mat-cell *matCellDef="let row">{{ row.casas }}</td>
+        </ng-container>
+
+        <!-- Actions -->
         <ng-container matColumnDef="actions">
-          <th *matHeaderCellDef class="actions-cell" mat-header-cell mat-sort-header></th>
-          <td *matCellDef="let row" class="actions-cell" mat-cell>
-            <button type="button" mat-icon-button [matMenuTriggerFor]="actionsMenu" (click)="$event.stopPropagation()">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
               <mat-icon>more_horiz</mat-icon>
             </button>
 
-            <mat-menu #actionsMenu="matMenu" yPosition="below" xPosition="before">
-              <button (click)="updateUsuario(row)" mat-menu-item>
-                <span>Modify</span>
+            <mat-menu #actionsMenu="matMenu">
+              <button mat-menu-item (click)="updateUsuario(row)">
+                <mat-icon>edit</mat-icon>
+                <span>Editar</span>
               </button>
-              <button (click)="deleteUsuario(row)" mat-menu-item>
-                <span>Delete</span>
+              <button mat-menu-item (click)="deleteUsuario(row)">
+                <mat-icon>delete</mat-icon>
+                <span>Eliminar</span>
               </button>
             </mat-menu>
           </td>
         </ng-container>
 
-        <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
-        <tr (click)="updateUsuario(row)"
-            *matRowDef="let row; columns: visibleColumns;"
-            class="clickable route-animations-elements"
-            mat-row></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" class="clickable"></tr>
       </table>
 
       <mat-paginator class="paginator" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"></mat-paginator>
-
     </fury-list>
-
   </fury-page-layout-content>
 </fury-page-layout>

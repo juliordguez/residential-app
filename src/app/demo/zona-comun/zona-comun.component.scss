@@ -1,0 +1,34 @@
+
+:host {
+  ::ng-deep .fc-event {
+    font-size: 0.9rem;
+  }
+}
+
+
+.has-tooltip {
+  position: relative;
+}
+
+.custom-tooltip {
+  display: none;
+  position: absolute;
+  top: -10px;
+  left: 100%;
+  margin-left: 8px;
+  padding: 8px 12px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.has-tooltip:hover .custom-tooltip {
+  display: block;
+  opacity: 1;
+}

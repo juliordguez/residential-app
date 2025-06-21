@@ -1,13 +1,7 @@
-
 import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-
-import { RolService } from '../../../services/role.service';
-import { UserService } from '../../../services/user.services';
-import { CasaService } from '../../../services/casas.service';
-import { ToastService } from 'src/app/shared/toast/toast.service';
-
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'fury-user-create-update',
@@ -21,129 +15,145 @@ export class UserCreateUpdateComponent implements OnInit {
   roles: any[] = [];
   casas: any[] = [];
 
+  rolesLoaded = false;
+  casasLoaded = false;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public defaults: any,
     private dialogRef: MatDialogRef<UserCreateUpdateComponent>,
-    private fb: UntypedFormBuilder,
-    private rolService: RolService,
-    private userService: UserService,
-    private casasService: CasaService,
-    private toast: ToastService
-
+    private fb: UntypedFormBuilder
   ) {}
 
-
-  ngOnInit() {
-  this.loadRoles();
-  this.loadCasas();
-
-  if (this.defaults) {
-    this.mode = 'update';
-  } else {
-    this.defaults = {};
-  }
-
-  this.form = this.fb.group({
-    email: [this.defaults.email || '', Validators.required],
-    nick_name: [this.defaults.nick_name || ''],
-    username: [this.defaults.username || '', this.isCreateMode() ? Validators.required : []],
-    id_casa: [this.defaults.id_casa || null, Validators.required],
-    id_rol: [this.defaults.id_rol || null, Validators.required]
-  });
-
-  console.log('[DEBUG] Usuario recibido para edición:', this.defaults);
-}
-
-
-
-
-loadRoles() {
-  this.rolService.getRoles().subscribe({
-    next: (data: any) => {
-      this.roles = data.message;  // ✅ SOLO el array
-      console.log('[DEBUG] Roles cargados:', this.roles);
-    },
-    error: (err) => console.error('Error al cargar roles', err)
-  });
-}
-
-
-
-loadCasas() {
-  this.casasService.getCasas().subscribe({
-    next: (data: any) => {
-      this.casas = data.message;
-      console.log('[DEBUG] Casas cargadas:', this.casas);
-    },
-    error: (err) => console.error('Error al cargar casas', err)
-  });
-}
-
-
-
-  save() {
-    if (this.mode === 'create') {
-      this.createUser();
+  ngOnInit(): void {
+    if (this.defaults) {
+      this.mode = 'update';
+      console.log("datos para update entrantes: ", this.defaults)
     } else {
-      this.updateUser();
+      this.defaults = {};
+    }
+
+    this.form = this.fb.group({
+      email: [this.defaults.email || '', Validators.required],
+      username: [this.defaults.username || '', Validators.required],
+      nickname: [this.defaults.nickname || ''],
+      id_role: [null, Validators.required],
+      id_casas: [[], Validators.required],
+      id_fraccionamiento: [1]  // fijo por ahora
+    });
+
+    this.loadRoles();
+    this.loadCasas();
+  }
+
+  loadRoles(): void {
+    fetch(`${environment.apiDemo}/demo/roles`)
+      .then(res => res.json())
+      .then(data => {
+        this.roles = data;
+        this.rolesLoaded = true;
+        this.tryPatchForm();
+        console.log('[DEBUG] Roles cargados:', this.roles);
+      })
+      .catch(err => console.error('[ERROR] No se pudieron cargar los roles:', err));
+  }
+
+  loadCasas(): void {
+    fetch(`${environment.apiDemo}/demo/casas?id_fraccionamiento=1`)
+      .then(res => res.json())
+      .then(data => {
+        this.casas = data;
+        this.casasLoaded = true;
+        this.tryPatchForm();
+        console.log('[DEBUG] Casas cargadas:', this.casas);
+      })
+      .catch(err => console.error('[ERROR] No se pudieron cargar las casas:', err));
+  }
+
+  // tryPatchForm(): void {
+  //   if (this.mode === 'update' && this.rolesLoaded && this.casasLoaded) {
+  //     this.form.patchValue({
+  //       id_role: this.defaults.id_role,
+  //       id_casas: (this.defaults.casas || []).map(c => c.id_casa)
+  //     });
+  //   }
+  // }
+
+
+
+
+
+tryPatchForm(): void {
+  if (
+    this.mode === 'update' &&
+    this.rolesLoaded &&
+    this.casasLoaded &&
+    this.form
+  ) {
+    const id_role = this.defaults.id_role;
+    const id_casas = Array.isArray(this.defaults.raw_casas)
+      ? this.defaults.raw_casas.map((c: any) => c.id_casa)
+      : [];
+
+    console.log('[DEBUG] patching form with:', { id_role, id_casas });
+
+    this.form.patchValue({
+      id_role,
+      id_casas
+    });
+  }
+}
+
+
+
+  save(): void {
+    const payload = this.form.value;
+
+    if (this.mode === 'create') {
+      console.log('[DEBUG] Payload para crear usuario:', payload);
+      fetch(`${environment.apiDemo}/demo/usuarios`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(async res => {
+          if (!res.ok) throw new Error('Error al crear usuario');
+          return res.json();
+        })
+        .then(data => {
+          console.log('[SUCCESS] Usuario creado:', data);
+          this.dialogRef.close(true);
+        })
+        .catch(err => {
+          console.error('[ERROR] Crear usuario:', err);
+          alert('Error al crear usuario');
+        });
+    } else {
+      console.log('[DEBUG] Payload para editar usuario:', payload);
+      fetch(`${environment.apiDemo}/demo/usuarios/${this.defaults.user_uuid}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(async res => {
+          if (!res.ok) throw new Error('Error al editar usuario');
+          return res.json();
+        })
+        .then(data => {
+          console.log('[SUCCESS] Usuario actualizado:', data);
+          this.dialogRef.close(true);
+        })
+        .catch(err => {
+          console.error('[ERROR] Editar usuario:', err);
+          alert('Error al actualizar usuario');
+        });
     }
   }
 
-
-createUser() {
-  const user = this.form.value;
-
-  const payload = {
-    email: user.email,
-    username: user.username,
-    id_casa: user.id_casa,
-    id_rol: user.id_rol,
-    id_fraccionamiento: 1
-  };
-
-  console.log('[DEBUG] Payload para crear usuario:', payload);
-
-  this.userService.createUser(payload).subscribe({
-    next: (response) => {
-    this.toast.success('Usuario creado', 'Se ha creado exitosamente');
-      this.dialogRef.close(response);
-    },
-    error: (error) => {
-      this.toast.error('Error al crear usuario', error?.error?.detail || 'Ocurrió un error inesperado');
-      console.error(error);
-    }
-  });
-}
-
-
-
-updateUser() {
-  const body = this.form.value;
-
-  console.log('[DEBUG] Body para PUT:', body);
-  console.log('[DEBUG] UUID recibido:', this.defaults.user_uuid);  // 👈 esta línea
-
-  this.userService.updateUser(this.defaults.user_uuid, body).subscribe({
-    next: (response) => {
-      this.dialogRef.close(response)
-      this.toast.success('Usuario modificado', 'Cambios guardados correctamente');
-
-    },
-    error: (error) => {
-      console.error('Error al actualizar usuario:', error)
-      this.toast.error('Error al modificar usuario', error?.error?.detail || 'No se pudo actualizar');
-    }
-  });
-}
-
-
-
-
-  isCreateMode() {
+  isCreateMode(): boolean {
     return this.mode === 'create';
   }
 
-  isUpdateMode() {
+  isUpdateMode(): boolean {
     return this.mode === 'update';
   }
 }

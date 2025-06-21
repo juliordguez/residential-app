@@ -1,0 +1,86 @@
+<fury-page-layout mode="card">
+  <fury-page-layout-header>
+    <fury-breadcrumbs [@fadeInRight] [crumbs]="['Administración']" current="Vehículos"></fury-breadcrumbs>
+  </fury-page-layout-header>
+
+  <fury-page-layout-content [@fadeInUp]>
+    <fury-list name="vehiculos" (filterChange)="onFilterChange($event)">
+      <div class="actions">
+        <button class="create" (click)="createVehiculo()" type="button" mat-mini-fab color="primary">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z2" matSort>
+
+        <!-- Placas -->
+        <ng-container matColumnDef="placas">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Placas</th>
+          <td mat-cell *matCellDef="let row">{{ row.placas }}</td>
+        </ng-container>
+
+        <!-- Marca -->
+        <ng-container matColumnDef="marca">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Marca</th>
+          <td mat-cell *matCellDef="let row">{{ row.marca }}</td>
+        </ng-container>
+
+        <!-- Modelo -->
+        <ng-container matColumnDef="modelo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Modelo</th>
+          <td mat-cell *matCellDef="let row">{{ row.modelo }}</td>
+        </ng-container>
+
+        <!-- Año -->
+        <ng-container matColumnDef="anio">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Año</th>
+          <td mat-cell *matCellDef="let row">{{ row.anio }}</td>
+        </ng-container>
+
+        <!-- Color -->
+        <ng-container matColumnDef="color">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Color</th>
+          <td mat-cell *matCellDef="let row">{{ row.color }}</td>
+        </ng-container>
+
+        <!-- Tipo -->
+        <ng-container matColumnDef="tipo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</th>
+          <td mat-cell *matCellDef="let row">{{ row.tipo }}</td>
+        </ng-container>
+
+        <!-- Usuario -->
+        <ng-container matColumnDef="usuario">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuario</th>
+          <td mat-cell *matCellDef="let row">{{ row.usuario }}</td>
+        </ng-container>
+
+        <!-- Actions -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+
+            <mat-menu #actionsMenu="matMenu">
+              <button mat-menu-item (click)="updateVehiculo(row)">
+                <mat-icon>edit</mat-icon>
+                <span>Editar</span>
+              </button>
+              <button mat-menu-item (click)="deleteVehiculo(row)">
+                <mat-icon>delete</mat-icon>
+                <span>Eliminar</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" class="clickable"></tr>
+      </table>
+
+      <mat-paginator class="paginator" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"></mat-paginator>
+    </fury-list>
+  </fury-page-layout-content>
+</fury-page-layout>
