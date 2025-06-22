@@ -61,6 +61,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'fury-toolbar-user',
@@ -72,11 +73,19 @@ export class ToolbarUserComponent implements OnInit {
   isOpen: boolean;
   nickname: string = '';  // <--- agregamos variable
 
+  useruuid: string = ''; // <--- agregas esta variable
+  timestamp: number = Date.now();
+  fotoUrl: string = '';
+
+
   constructor(private router: Router) {}
 
   ngOnInit() {
     // Al inicializar el componente, cargamos el nickname del localStorage
     this.nickname = localStorage.getItem('nickname') || 'Usuario';
+    this.useruuid = localStorage.getItem('user_uuid') || '';
+    this.fotoUrl = `${environment.apiDemo}/demo/usuarios/uuid/${this.useruuid}/foto?uuid_user=${this.useruuid}&ts=${this.timestamp}`;
+
   }
 
   toggleDropdown() {

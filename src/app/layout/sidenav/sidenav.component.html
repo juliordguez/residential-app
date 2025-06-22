@@ -27,20 +27,34 @@
 
   <fury-scrollbar class="sidenav-items" fxFlex="auto">
     <div *ngIf="sidenavUserVisible$ | async" class="sidenav-user">
-      <img class="sidenav-user-image" src="assets/img/avatars/default.jpg">
+      <!-- <img class="sidenav-user-image" src="assets/img/avatars/default.jpg"> -->
+
+    <img class="sidenav-user-image"
+    [src]="fotoUrl"
+     onerror="this.onerror=null; this.src='assets/default-user.png';"
+     style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 2px solid #2196f3;">
+
+
       <!-- <h4 class="sidenav-user-name">David Smith</h4> -->
       <h4 class="sidenav-user-name">{{ nickname }}</h4>
 
       <div class="sidenav-user-icons" fxLayout="row">
-        <a [routerLink]="['/tables/all-in-one-table']" mat-icon-button>
+        <!-- <a [routerLink]="['/tables/all-in-one-table']" mat-icon-button>
           <mat-icon>assignment</mat-icon>
         </a>
         <a [routerLink]="['/apps/calendar']" mat-icon-button>
           <mat-icon>date_range</mat-icon>
-        </a>
-        <!-- <a [routerLink]="['/login']" mat-icon-button>
-          <mat-icon>exit_to_app</mat-icon>
         </a> -->
+        <!-- <a [routerLink]="['/miperfil']" mat-icon-button>
+          mi perfil
+        </a> -->
+        <a [routerLink]="['/miperfil']"
+   style="font-weight: bold; color: #2196f3; text-decoration: none; display: flex; align-items: center;"
+>
+  <mat-icon style="margin-right: 8px;">person</mat-icon>
+  mi perfil
+</a>
+
       </div>
     </div>
 

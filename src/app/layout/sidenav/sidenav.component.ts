@@ -97,6 +97,9 @@ import { map } from 'rxjs/operators';
 import { SidenavItem } from './sidenav-item/sidenav-item.interface';
 import { SidenavService } from './sidenav.service';
 import { ThemeService } from '../../../@fury/services/theme.service';
+import { environment } from 'src/environments/environment';
+
+
 
 @Component({
   selector: 'fury-sidenav',
@@ -118,6 +121,11 @@ export class SidenavComponent implements OnInit, OnDestroy {
   items$: Observable<SidenavItem[]>;
 
   nickname: string = ''; // <--- agregas esta variable
+  useruuid: string = ''; // <--- agregas esta variable
+  timestamp: number = Date.now();
+  fotoUrl: string = '';
+
+
 
   constructor(private router: Router,
               private sidenavService: SidenavService,
@@ -131,6 +139,9 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     // Leer nickname del localStorage
     this.nickname = localStorage.getItem('nickname') || 'Usuario';
+    this.useruuid = localStorage.getItem('user_uuid') || '';
+    this.fotoUrl = `${environment.apiDemo}/demo/usuarios/uuid/${this.useruuid}/foto?uuid_user=${this.useruuid}&ts=${this.timestamp}`;
+
   }
 
   toggleCollapsed() {
