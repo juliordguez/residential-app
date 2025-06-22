@@ -21,6 +21,7 @@
 }
 
 .fury-page-layout-header {
+  //modificado por hector el heigh
   height: $page-layout-height - $page-layout-toolbar-height;
   padding-left: $padding;
   padding-right: $padding;
@@ -28,6 +29,8 @@
   flex-direction: row;
   place-content: center flex-start;
   align-items: center;
+    height: 8vh;
+
 }
 
 .fury-page-layout-content {

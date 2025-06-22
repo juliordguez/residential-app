@@ -1,71 +1,3 @@
-<!-- 
-<fury-page-layout mode="card">
-  <fury-page-layout-header>
-    <fury-breadcrumbs [crumbs]="['Comunidad']" current="Vecinos"></fury-breadcrumbs>
-  </fury-page-layout-header>
-
-  <fury-page-layout-content [@fadeInUp]>
-    <fury-list name="vecinos" (filterChange)="onFilterChange($event)">
-      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; padding: 10px; justify-items: center;">
-        <mat-card *ngFor="let vecino of currentPageData" style="width: 350px; border-radius: 12px; margin-top: 15px; overflow: hidden; padding: 0;">
-          <mat-card-content style="padding: 16px;">
-            <div style="display: flex; align-items: flex-start; gap: 16px;">
-              <div style="flex: 1;">
-                <mat-icon [style.fontSize.px]="32" style="color: #3f51b5;">person</mat-icon>
-                <h3 style="margin: 5px 0;">{{ vecino.nickname }}</h3>
-                <p style="margin: 0; font-weight: bold; color: gray;">{{ vecino.rol }}</p>
-                <p><strong>Usuario:</strong> {{ vecino.username }}</p>
-                <p><strong>Teléfono:</strong> {{ vecino.telefono || '' }}</p>
-              </div>
-
-              <div>
-                <img
-                  *ngIf="!vecino.hasImageError && vecino.foto"
-                  [src]="getFotoUrl(vecino.id_user)"
-                  (error)="vecino.hasImageError = true"
-                  width="110"
-                  height="110"
-                  style="border-radius: 5px; object-fit: cover;"
-                />
-                <img
-                  *ngIf="vecino.hasImageError || !vecino.foto"
-                  src="assets/default-user.png"
-                  width="110"
-                  height="110"
-                  style="border-radius: 5px; object-fit: cover;"
-                />
-              </div>
-            </div>
-
-            <hr style="margin: 10px 0;" />
-
-            <p><strong>Casas:</strong> {{ vecino.casas }}</p>
-            <p><strong>Mascotas:</strong> {{ vecino.resumen_mascotas || '' }}</p>
-            <p><strong>Vehículos:</strong> {{ vecino.resumen_vehiculos || '' }}</p>
-          </mat-card-content>
-        </mat-card>
-      </div>
-
-      <mat-paginator class="paginator" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"></mat-paginator>
-    </fury-list>
-  </fury-page-layout-content>
-</fury-page-layout> 
-
-
- -->
-
-
-
-
-
-
-
-
-
-
-
-
-
 
  <fury-page-layout mode="card">
   <fury-page-layout-header>
@@ -74,8 +6,8 @@
 
   <fury-page-layout-content [@fadeInUp]>
     <fury-list name="vecinos" (filterChange)="onFilterChange($event)">
-      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; padding: 10px; justify-items: center;">
-        <mat-card *ngFor="let vecino of currentPageData" style="width: 350px; border-radius: 12px; margin-top: 15px; overflow: hidden; padding: 0;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 20px; padding: 10px; justify-items: center;">
+        <mat-card *ngFor="let vecino of currentPageData" style="width: 310px; border-radius: 12px; margin-top: 15px; overflow: hidden; padding: 0;">
           <mat-card-content style="padding: 16px;">
             <div style="display: flex; align-items: flex-start; gap: 16px;">
               <div style="flex: 1;">
@@ -83,7 +15,7 @@
                 <h3 style="margin: 5px 0;">{{ vecino.nickname }}</h3>
                 <p style="margin: 0; font-weight: bold; color: gray;">{{ vecino.rol }}</p>
                 <p><strong>Usuario:</strong> {{ vecino.username }}</p>
-                <p><strong>Teléfono:</strong> {{ vecino.telefono || '' }}</p>
+                <!-- <p><strong>Teléfono:</strong> {{ vecino.telefono || '' }}</p> -->
               </div>
 
               <div>

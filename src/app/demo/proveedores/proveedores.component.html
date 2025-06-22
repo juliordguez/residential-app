@@ -18,12 +18,12 @@
 
       <div style="
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
         gap: 20px;
         padding: 10px;
         justify-items: center;">
         
-        <mat-card *ngFor="let p of currentPageData" style="width: 350px; border-radius: 12px; padding: 16px;margin-top: 15px;">
+        <mat-card *ngFor="let p of currentPageData" style="width: 310px; border-radius: 12px; padding: 10px;margin-top: 15px;">
           <mat-card-content>
             <mat-icon [style.fontSize.px]="32" style="color: #3f51b5;">{{ getTipoIcon(p.nombre_tipo_servicio) }}</mat-icon>
             <h3 style="margin: 5px 0;">{{ p.nombre_proveedor }}</h3>
@@ -52,9 +52,9 @@
 
             <p *ngIf="p.telefono"><strong>Tel:</strong> {{ p.telefono }}</p>
             <p *ngIf="p.correo"><strong>Email:</strong> {{ p.correo }}</p>
-            <p *ngIf="p.website"><strong>Website:</strong>
+            <!-- <p *ngIf="p.website"><strong>Website:</strong>
               <a [href]="p.website" target="_blank">{{ p.website }}</a>
-            </p>
+            </p> -->
 
             <div style="margin-top: 10px;">
               <a href="javascript:void(0);" (click)="updateProveedor(p)">Editar</a> |
